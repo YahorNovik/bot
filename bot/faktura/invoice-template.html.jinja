@@ -1,0 +1,209 @@
+<!-- 
+    Expected variables:
+
+    invoice_number: string
+    issue_date: string
+    sale_date: string
+    due_date: string
+    notes: string
+    payment_method: string
+    account_number: string
+
+    user: {
+        name: string,
+        business_name: string,
+        address: string,
+        nip: string
+        phone: string
+    }
+
+    cabinet: {
+        business_name: string,
+        address: string,
+        nip: string
+    }
+
+    services: 
+    [
+        {
+            name: string,
+            amount: number,
+            unit: string,
+            unit_price_netto: number,
+            price_netto: number,
+            vat_perc: number | null, // (for 'zw.')
+            vat_value: number,
+            price_brutto: number,
+        }
+    ]
+
+    in_total: {
+        price_netto: number,
+        vat_value: number,
+        price_brutto: number,
+        price_brutto_verbally: string,
+    }
+
+    in_total_details: 
+    [
+        {
+            price_netto: number,
+            vat_perc: number | null, // (for 'zw.')
+            vat_value: number,
+            price_brutto: number,
+        }
+    ]
+ -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="reset.css" />
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Hind:wght@400;600&family=Poppins:wght@600&display=swap"
+      rel="stylesheet"
+    />
+    <title>Invoice</title>
+  </head>
+
+  <body>
+    <div class="payment-details-container">
+        <div class="payment-method">
+          <p class="payment-method__label">Faktura numer:&nbsp;&nbsp;</p>
+          <p class="payment-method__value">{{ invoice_number }}</p>
+        </div>
+        <div class="due-date">
+          <p class="due-date__label">&nbsp;&nbsp;</p>
+        </div>
+        <div class="due-date">
+          <p class="due-date__label">Data wystawienia:&nbsp;&nbsp;</p>
+          <p class="due-date__value">{{ issue_date }}</p>
+        </div>
+        <div class="account-number">
+          <p class="account-number__label">Data sprzedaży:&nbsp;&nbsp;</p>
+          <p class="account-number__value">{{ sale_date }}</p>
+        </div>
+        <div class="due-date">
+          <p class="due-date__label">Termin płatności:&nbsp;&nbsp;</p>
+          <p class="due-date__value">{{ due_date }}</p>
+        </div>
+        <div class="transfer-title">
+          <p class="transfer-title__label">Sposób płatności:&nbsp;&nbsp;</p>
+          <p class="transfer-title__value">{{ payment_method }}</p>
+        </div>
+      </div>
+
+    <div class="divider"></div>
+
+    <main class="main">
+      <div class="credentials-container">
+        <div class="seller-details">
+          <h2 class="seller-details__subtitle">Sprzedawca: </h2>
+          <div class="seller-details__content">
+            <p class="content__name">{{ user.business_name }}</p>
+            <p class="content__address">{{ user.address }}</p>
+            <p class="content__nip">NIP: {{ user.nip }}</p>
+            {% if user.phone %}
+            <p class="content__phone">Tel: {{ user.phone }}</p>
+            {% endif %}
+          </div>
+        </div>
+
+        <div class="buyer-details">
+          <h2 class="buyer-details__subtitle">Nabywca: </h2>
+          <div class="buyer-details__content">
+            <p class="content__name">{{ cabinet.business_name }}</p>
+            <p class="content__address">{{ cabinet.address }}</p>
+            <p class="content__nip">NIP: {{ cabinet.nip }}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- TABLE -->
+
+      <div class="table">
+        <div class="row row-header">
+          <div class="col col-index col-header">Lp</div>
+          <div class="col col-name col-header">Nazwa</div>
+          <div class="col col-amount col-header">Ilość</div>
+          <div class="col col-unit col-header">Jm</div>
+          <div class="col col-price-per-unit-netto col-header">Cena netto</div>
+          <div class="col col-price-netto col-header">Wartość netto</div>
+          <div class="col col-vat-perc col-header">Stawka VAT</div>
+          <div class="col col-vat col-header">Kwota VAT</div>
+          <div class="col col-price-brutto col-header">Wartość brutto</div>
+        </div>
+
+        {% for service in services %}
+
+        <div class="row">
+          <div class="col col-index">{{ loop.index }}</div>
+          <div class="col col-name">{{ service.name }}</div>
+          <div class="col col-amount">{{ service.amount }}</div>
+          <div class="col col-unit">{{ service.unit }}</div>
+          <div class="col col-price-per-unit-netto">{{ service.unit_price_netto|round(2) }}</div>
+          <div class="col col-price-netto">{{ service.price_netto|round(2) }}</div>
+          <div class="col col-vat-perc">{{ "{}%".format(service.vat_perc) if service.vat_perc else 'zw.' }}</div>
+          <div class="col col-vat">{{ service.vat_value|round(2) }}</div>
+          <div class="col col-price-brutto">{{ service.price_brutto|round(2) }}</div>
+        </div>
+
+        {% endfor %}
+
+          {% for detailed in in_total_details %}
+
+          <div class="row row-total-details">
+            <div class="col col-price-per-unit-netto">W tym:</div>
+            <div class="col col-price-netto">{{ detailed.price_netto|round(2) }}</div>
+            <div class="col col-vat-perc">{{ "{}%".format(detailed.vat_perc) if detailed.vat_perc else 'zw.' }}</div>
+            <div class="col col-vat">{{ detailed.vat_value|round(2) }}</div>
+            <div class="col col-price-brutto">{{ detailed.price_brutto|round(2) }}</div>
+          </div>
+
+          {% endfor %}
+
+        <div class="total-wrapper">
+          <div class="row row-total">
+            <div class="col col-price-per-unit-netto">Razem:</div>
+            <div class="col col-price-netto">{{ in_total.price_netto|round(2) }}</div>
+            <div class="col col-vat-perc"></div>
+            <div class="col col-vat">{{ in_total.vat_value|round(2) }}</div>
+            <div class="col col-price-brutto">{{ in_total.price_brutto|round(2) }}</div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="summary-container">
+        <div class="in-total">
+          <p class="in-total__label">Razem do zapłaty:&nbsp;&nbsp;</p>
+          <p class="in-total__value">{{ in_total.price_brutto|round(2) }} PLN</p>
+        </div>
+        <div class="in-total-verbally">
+          <p class="in-total-verbally__label">Słownie:&nbsp;&nbsp;</p>
+          <p class="in-total-verbally__value">{{ in_total.price_brutto_verbally }}</p>
+        </div>
+        {% if notes %}
+        <div class="notes">
+          <p class="notes__label">Uwagi:&nbsp;&nbsp;</p>
+          <p class="notes__value">{{ notes }}</p>
+        </div>
+        {% endif %}
+      </div>
+      <div class="divider"></div>
+        <div class="seller-signature">
+          <div class="seller-signature__value">{{ user.name }}&nbsp;&nbsp;</div>
+          <div class="seller-signature__capture">Imię, nazwisko i podpis osoby upoważnionej do wystawienia dokumentu</div>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

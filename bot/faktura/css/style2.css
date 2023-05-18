@@ -1,0 +1,352 @@
+/* @page {
+  size: A4 portrait;
+} */
+
+:root {
+  --doc-width: 1000px;
+  --doc-left-right-margin: 20px;
+  --col-gap: 100px;
+  --col-2x-width: 200px;
+  --col-4x-width: 70px;
+  --border-color: #f2f4f7;
+}
+
+h1 {
+  font: 900 60px/35px 'Poppins';
+  letter-spacing: 0.035em;
+}
+
+h2 {
+  font: 600 12px/18px 'Hind';
+}
+
+html,
+body {
+  width: 1000px;
+  min-height: 842px;
+  font: 400 12px/14px 'Hind';
+  color: #292929;
+}
+
+.header,
+.main {
+  /* width: 100%; */
+  padding: 0 20px 0;
+}
+
+.main {
+  margin: 17px 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column;
+          flex-flow: column;
+  row-gap: 17px;
+}
+
+/* >>>>>>>>>>>>>> DIVIDER */
+
+.divider {
+  border-bottom: 3px solid #f2f4f7;
+}
+
+/* DIVIDER <<<<<<<<<<<<<< */
+
+/* >>>>>>>>>>>>>> CREDENTIALS */
+
+.credentials-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-box;
+  -webkit-column-gap: 100px;
+     -moz-column-gap: 100px;
+          column-gap: 100px;
+}
+
+.seller-details,
+.buyer-details {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column;
+          flex-flow: column;
+  row-gap: 1px;
+  column-gap: 150px;
+  width: 400px;
+}
+
+.seller-details__content,
+.buyer-details__content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column;
+          flex-flow: column;
+  row-gap: 5px;
+  width: 400px;
+  column-gap: 150;
+}
+
+/* CREDENTIALS <<<<<<<<<<<<<< */
+
+/* >>>>>>>>>>>>>> TABLE */
+
+/* TABLE <<<<<<<<<<<<<< */
+.table {
+  padding-top: 60px;
+  padding-bottom: 100px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column;
+          flex-flow: column;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+  font-size: 12px;
+  line-height: 11px;
+}
+
+.table .row {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-box;
+  border-top: 1px solid #f2f4f7;
+}
+
+.table .row-header {
+  border-top: unset;
+  font-weight: 600;
+  background-color: #f2f4f7;
+}
+
+.table > .row:nth-last-child(2) {
+  border-bottom: 1px solid #f2f4f7;
+}
+
+.table .col {
+  padding: 8px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-box;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  text-align: center;
+  border-left: 1px solid #f2f4f7;
+}
+
+.table .col:first-child {
+  border-left: unset;
+}
+
+.table {
+  width: 950px; 
+}
+
+.table .col-index {
+  width: 45px;
+}
+
+.table .col-name {
+  width: 255px;
+}
+
+.table .col-name:not(.col-header) {
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  text-align: left;
+}
+
+.table .col-amount {
+  width: 45px;
+}
+
+.table .col-unit {
+  width: 45px;
+}
+
+.table .col-price-per-unit-netto {
+  width: 95px;
+}
+
+.table .col-price-netto {
+  width: 125px;
+}
+
+.table .col-vat-perc {
+  width: 95px;
+}
+
+.table .col-vat {
+  width: 95px;
+}
+
+.table .col-price-brutto {
+  width: 125px;
+  border-right: 1px solid #f2f4f7;
+}
+
+.table .total-wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column;
+          flex-flow: column;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+}
+
+.table .total-wrapper .col-price-netto {
+  border-left: 1px solid #f2f4f7;
+}
+
+.table .total-wrapper .row{
+  border-bottom: 1px solid #f2f4f7;
+  border-top: 0px;
+}
+
+.table .total-details .row{
+  border-bottom: 1px solid #f2f4f7;
+}
+
+.row-total .col,
+
+.row-total .col-price-per-unit-netto,
+.row-total-details .col-price-per-unit-netto {
+  font-weight: 600;
+}
+
+/* >>>>>>>>>>>>>> SUMMARY */
+
+.summary-container {
+  padding-bottom: 27px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column;
+          flex-flow: column;
+  row-gap: 25px;
+}
+
+.in-total,
+.in-total-verbally,
+.notes {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-box;
+}
+
+.in-total__label,
+.in-total-verbally__label,
+.notes__label {
+  min-width: var(--col-4x-width);
+  font: 600 12px/14px 'Hind';
+  text-align: right;
+}
+
+
+
+/* SUMMARY <<<<<<<<<<<<<< */
+
+/* >>>>>>>>>>>>>> PAYMENT DETAILS */
+
+.payment-details-container {
+  padding-top: 27px;
+  padding-bottom: 27px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column;
+          flex-flow: column;
+  row-gap: 20px;
+  font-size: 12;
+}
+
+.payment-details-container {
+  row-gap: 20px;
+}
+
+.payment-method,
+.due-date,
+.account-number,
+.transfer-title {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-box;
+  -webkit-column-gap: 20px;
+     -moz-column-gap: 20px;
+          column-gap: 20px;
+  row-gap: 7px;
+}
+
+.payment-method__label,
+.due-date__label,
+.account-number__label,
+.transfer-title__label {
+  min-width: var(--col-4x-width);
+  font: 600 12px/14px 'Hind';
+}
+
+/* PAYMENT DETAILS <<<<<<<<<<<<<< */
+
+/* >>>>>>>>>>>>>> SIGNATURES */
+
+.signatures-container {
+  padding-top: 77px;
+  padding-bottom: 27px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-box;
+  -webkit-column-gap: 20px;
+     -moz-column-gap: 20px;
+          column-gap: 20px;
+          text-align: right;
+}
+
+.buyer-signature,
+.seller-signature {
+  padding-top: 47px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-box;
+  width: 1000px;
+  height: 80px;
+  position: relative;
+}
+
+.seller-signature__value{
+  position: absolute;
+  font: 600 12px/10px 'Hind';
+  width: 900px;
+  text-align: right;
+}
+.seller-signature__capture {
+  position: absolute;
+  bottom: 2px;
+  color: #3c3c3d;
+  font-size: 7px;
+  width: 900px;
+  text-align: right;
+}
+
+/* SIGNATURES <<<<<<<<<<<<<< */

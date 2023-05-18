@@ -1,0 +1,6 @@
+/add_payment - Добавить транзакцию
+/open_gabinet - Открыть кабинет
+/add_gabinet - Добавить кабинет
+/logon - Регистрация
+/invoice - Фактура
+/restart - Рестарт

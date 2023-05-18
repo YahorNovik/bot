@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="reset.css" />
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Hind:wght@400;600&family=Poppins:wght@600&display=swap"
+      rel="stylesheet"
+    />
+    <title>Invoice</title>
+  </head>
+
+  <body>
+    <header class="header">
+      <div class="title-wrapper">
+        <h1 class="header__title">Faktura VAT</h1>
+        <p class="header__invoice-number">Nr 1/03/2023</p>
+      </div>
+      <div class="dates-wrapper">
+        <div class="issue-date">
+          <p class="issue-date__label">Data wystawienia:</p>
+          <p class="issue-date__date">2023-03-31</p>
+        </div>
+        <div class="sale-date">
+          <p class="sale-date__label">Data sprzedaży:</p>
+          <p class="sale-date__date">2023-03-31</p>
+        </div>
+      </div>
+    </header>
+
+    <main class="main">
+      <div class="credentials-container">
+        <div class="seller-details">
+          <h2 class="seller-details__subtitle">Sprzedawca:</h2>
+          <div class="seller-details__content">
+            <p class="content__name">Artsiom Karatai</p>
+            <p class="content__address">ul. Małopanewska 4b/8/1, 54-212 Wrocław</p>
+            <p class="content__nip">NIP: 1234567890</p>
+            <p class="content__phone">Tel: +48782007821</p>
+          </div>
+        </div>
+
+        <div class="buyer-details">
+          <h2 class="buyer-details__subtitle">Nabywca:</h2>
+          <div class="buyer-details__content">
+            <p class="content__name">SOFTWAREHUT Sp. z o.o.</p>
+            <p class="content__address">ul. Sienkiewicza 110, 15-005 Białystok</p>
+            <p class="content__nip">NIP: 1234567890</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="table">
+        <div class="row row-header">
+          <div class="col col-index col-header">Lp</div>
+          <div class="col col-name col-header">Nazwa</div>
+          <div class="col col-amount col-header">Ilość</div>
+          <div class="col col-unit col-header">Jm</div>
+          <div class="col col-price-per-unit-netto col-header">Cena netto</div>
+          <div class="col col-price-netto col-header">Wartość netto</div>
+          <div class="col col-vat-perc col-header">Stawka VAT</div>
+          <div class="col col-vat col-header">Kwota VAT</div>
+          <div class="col col-price-brutto col-header">Wartość brutto</div>
+        </div>
+
+        <div class="row">
+          <div class="col col-index">1</div>
+          <div class="col col-name">Wytwarzanie oprogramowania</div>
+          <div class="col col-amount">1</div>
+          <div class="col col-unit"></div>
+          <div class="col col-price-per-unit-netto">12345,00</div>
+          <div class="col col-price-netto">12345,00</div>
+          <div class="col col-vat-perc">23%</div>
+          <div class="col col-vat">12345,00</div>
+          <div class="col col-price-brutto">12345,00</div>
+        </div>
+
+        <div class="row">
+          <div class="col col-index">2</div>
+          <div class="col col-name">Wytwarzanie oprogramowania</div>
+          <div class="col col-amount">1</div>
+          <div class="col col-unit"></div>
+          <div class="col col-price-per-unit-netto">12345,00</div>
+          <div class="col col-price-netto">12345,00</div>
+          <div class="col col-vat-perc">18%</div>
+          <div class="col col-vat">12345,00</div>
+          <div class="col col-price-brutto">12345,00</div>
+        </div>
+
+        <div class="row">
+          <div class="col col-index">3</div>
+          <div class="col col-name">Wytwarzanie oprogramowania</div>
+          <div class="col col-amount">1</div>
+          <div class="col col-unit"></div>
+          <div class="col col-price-per-unit-netto">12345,00</div>
+          <div class="col col-price-netto">12345,00</div>
+          <div class="col col-vat-perc">zw.</div>
+          <div class="col col-vat">12345,00</div>
+          <div class="col col-price-brutto">12345,00</div>
+        </div>
+
+        <div class="total-wrapper">
+          <div class="row row-total">
+            <div class="col col-price-per-unit-netto">Razem:</div>
+            <div class="col col-price-netto">99999,00</div>
+            <div class="col col-vat-perc">X</div>
+            <div class="col col-vat">1111111,00</div>
+            <div class="col col-price-brutto">999999,00</div>
+          </div>
+
+          <div class="row row-total-details">
+            <div class="col col-price-per-unit-netto">W tym:</div>
+            <div class="col col-price-netto">12345,00</div>
+            <div class="col col-vat-perc">23%</div>
+            <div class="col col-vat">12345,00</div>
+            <div class="col col-price-brutto">12345,00</div>
+          </div>
+
+          <div class="row row-total-details">
+            <div class="col col-price-netto">12345,00</div>
+            <div class="col col-vat-perc">18%</div>
+            <div class="col col-vat">12345,00</div>
+            <div class="col col-price-brutto">12345,00</div>
+          </div>
+
+          <div class="row row-total-details">
+            <div class="col col-price-netto">12345,00</div>
+            <div class="col col-vat-perc">zw.</div>
+            <div class="col col-vat">12345,00</div>
+            <div class="col col-price-brutto">12345,00</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="summary-container">
+        <div class="in-total">
+          <div class="in-total__label">Razem do zapłaty:</div>
+          <div class="in-total__value">28 000,00 PLN</div>
+        </div>
+        <div class="in-total-verbally">
+          <div class="in-total-verbally__label">Słownie:</div>
+          <div class="in-total-verbally__value">dwadzieścia osiem tysięcy PLN 0/100</div>
+        </div>
+        <div class="notes">
+          <div class="notes__label">Uwagi:</div>
+          <div class="notes__value">
+            Podstawa zwolnienia z VAT: art. 113 ust. 1 i 9 Ustawa o podatku od towarów i usług
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="payment-details-container">
+        <div class="payment-method">
+          <div class="payment-method__label">Sposób płatności:</div>
+          <div class="payment-method__value">Przelew</div>
+        </div>
+        <div class="due-date">
+          <div class="due-date__label">Termin płatności:</div>
+          <div class="due-date__value">2023-04-14</div>
+        </div>
+        <div class="account-number">
+          <div class="account-number__label">Numer konta:</div>
+          <div class="account-number__value">PL32 1090 2516 0000 0001 5059 1111</div>
+        </div>
+        <div class="transfer-title">
+          <div class="transfer-title__label">Tytuł przelewu:</div>
+          <div class="transfer-title__value">Faktura 1/03/2023</div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="signatures-container">
+        <div class="buyer-signature">
+          <p class="buyer-signature__capture">Imię, nazwisko i podpis osoby upoważnionej do odebrania dokumentu</p>
+        </div>
+
+        <div class="seller-signature">
+          <p class="seller-signature__value">Artsiom Karatai</p>
+          <p class="seller-signature__capture">Imię, nazwisko i podpis osoby upoważnionej do wystawienia dokumentu</p>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>
