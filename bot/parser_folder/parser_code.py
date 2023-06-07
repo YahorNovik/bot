@@ -20,7 +20,6 @@ def get_user_data(nip):
 
   if res.status_code == 200:
     data = res_data.json()
-    print(data)
     
     user_data = { "Name": data['basicData']['name'],
                   "Address": f"{data['addressData']['correspondenceAddress']['street']} {data['addressData']['correspondenceAddress']['buildingNumber']}, {data['addressData']['correspondenceAddress']['apartmentNumber']}",

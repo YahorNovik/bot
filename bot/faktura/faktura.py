@@ -167,17 +167,17 @@ class Faktura:
   return self.data
  
  def get_faktura(self, data):
-   with open('bot/faktura/invoice-template.html.jinja', 'r', encoding='utf-8') as f:
+   with open('/home/egornovik2010/bot/bot/faktura/invoice-template.html.jinja', 'r', encoding='utf-8') as f:
     template_str = f.read()
    print('generating invoice...')
    template = jinja2.Template(template_str)   
    rendered_template = template.render(**data)
-   wkhtmltopdf="C:\\Users\Yahor Novik\\Desktop\\lekarz-dentysta\\venv\\bot\\faktura\\wkhtmltopdf.exe" 
+   wkhtmltopdf="/home/egornovik2010/bot/bot/faktura/wkhtmltopdf.exe" 
    #/venv/bot/faktura
    #"C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltopdf.exe" 
    options={"enable-local-file-access": ""}
-   css=['bot/faktura/css/style2.css', 'bot/faktura/css/reset.css']
-   file = str(f"bot/faktura/faktury/Faktura.pdf")
+   css=['/home/egornovik2010/bot/bot/faktura/css/style2.css', '/home/egornovik2010/bot/bot/faktura/css/reset.css']
+   file = str(f"/home/egornovik2010/bot/bot/faktura/faktury/Faktura.pdf")
    pdfkit.from_string(rendered_template, file, configuration=pdfkit.configuration(wkhtmltopdf=wkhtmltopdf), options=options, css=css)
    with File(maintain_db) as db: 
        try:

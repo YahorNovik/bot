@@ -89,7 +89,7 @@ async def process_nip(message: Message, state: FSMContext):
         await message.answer('Неправильный номер NIP.')
         await message.answer('Введите NIP:')
     else :
-        #try:
+        try:
           user_data = get_user_data(message.text)
           await state.update_data(nip=message.text)
           await state.update_data(name=user_data['Name'])
@@ -103,8 +103,8 @@ async def process_nip(message: Message, state: FSMContext):
 
           time.sleep(2)
           await message.answer(text = 'Данные корректны?', reply_markup= get_yesno_keyboard())
-        #except Exception as err:
-        #  await message.answer(text = 'Не могу найти данные по номеру NIP')
+        except Exception as err:
+          await message.answer(text = 'Не могу найти данные по номеру NIP')
     
 @router.message(StateFilter(FSMFillForm.gabinet_nip))
 async def process_gabinet_nip(message: Message, state: FSMContext):
