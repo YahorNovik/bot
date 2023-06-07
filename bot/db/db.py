@@ -63,7 +63,7 @@ class maintain_db:
     
     def get_user_data_by_nip(self, nip):
         print('getting user data by user nip..')
-        self.cursor.execute("SELECT address, city, name FROM users WHERE nip=?", (nip,))
+        self.cursor.execute("SELECT address, city, name, accountNumber FROM users WHERE nip=?", (nip,))
         result = self.cursor.fetchone()
         if result:
             return result
@@ -142,16 +142,33 @@ class maintain_db:
     
     def add_invoice(self, data):
         print('adding invoice...')
-        #self.cursor.execute("INSERT INTO 'invoices' (invoice_number, issue_date, sale_date, due_date, note, payment_method, account_number, user_nip, user_name, user_business_name, user_address, user_phone, gabinet_nip, gabinet_name, gabinet_address, service_name, service_amount, service_unit, service_unit_price, service_netto, service_vat, service_vat_amount, service_brutto, total_netto, total_vat_amount, total_brutto, total_brutto_verbally, in_total_netto, in_total_vat, in_total_vat_amount, in_total_brutto) VALUES(?, ?, ?, ?, ?)",
-        self.cursor.execute("INSERT INTO 'invoices' (invoice_number, issue_date, sale_date, due_date, note, payment_method, account_number, user_nip, user_name, user_business_name, user_address, user_phone, gabinet_nip, gabinet_name, gabinet_address ) VALUES(?, ?, ?, ?, ?,?,?,?,?,?,?,?,?,?,?)",
-                           (data['invoice_number'], data['issue_date'], data['sale_date'], data['due_date'], data['notes'], data['payment_method'], data['account_number'], data['user']['nip'], data['user']['name'], data['user']['business_name'], data['user']['address'], data['user']['phone'], data['cabinet']['nip'], data['cabinet']['business_name'], data['cabinet']['address']))
+        self.cursor.execute("INSERT INTO 'invoices' (invoice_number, issue_date, sale_date, due_date, note, payment_method, account_number, user_nip, user_name, user_business_name, user_address, user_phone, gabinet_nip, gabinet_name, gabinet_address, service_name, service_amount, service_unit, service_unit_price, service_netto, service_vat, service_vat_amount, service_brutto, total_netto, total_vat_amount, total_brutto, total_brutto_verbally, in_total_netto, in_total_vat, in_total_vat_amount, in_total_brutto) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                           (data['invoice_number'], data['issue_date'], data['sale_date'], data['due_date'], data['notes'], data['payment_method'], data['account_number'], data['user']['nip'], data['user']['name'], data['user']['business_name'], data['user']['address'], data['user']['phone'], data['cabinet']['nip'], data['cabinet']['business_name'], data['cabinet']['address'], data['services'][0]['name'], data['services'][0]['amount'], data['services'][0]['unit'], data['services'][0]['unit_price_netto'], data['services'][0]['price_netto'], data['services'][0]['vat_perc'], data['services'][0]['vat_value'], data['services'][0]['price_brutto'], data['in_total']['price_netto'], data['in_total']['vat_value'], data['in_total']['price_brutto'], data['in_total']['price_brutto_verbally'], data['in_total_details'][0]['price_netto'], data['in_total_details'][0]['vat_perc'], data['in_total_details'][0]['vat_value'], data['in_total_details'][0]['price_brutto']))
         self.conn.commit()
+
+    def get_invoice_data(self, invoice_number):
+        print('gettng invoice...')
+        self.cursor.execute("SELECT * FROM 'invoices' WHERE invoice_number=?", (invoice_number))
+        result = self.cursor.fetchone()
+        if result:
+            return result[0]
+        else:
+            return None
     
-    def get_invoices(self, user_nip, gabinet_nip):
+    def get_invoices(self, user_nip, gabinet_nip=None, month=True):
         print('getting invoices...')
-        current_month = datetime.datetime.now().replace(day=1, hour=0, minute=0, second=0, microsecond=0)
-        query = "SELECT * FROM invoices WHERE user_nip = ? AND gabinet_nip = ? AND issue_date >= ?"
-        self.cursor.execute(query, (user_nip, gabinet_nip, current_month))
+        if month == True:
+          date = datetime.datetime.now().replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+        else:
+          date = datetime.datetime.now().replace(month=1, day=1, hour=0, minute=0, second=0, microsecond=0)
+        
+        if gabinet_nip == None:
+          query = "SELECT * FROM invoices WHERE user_nip = ? AND issue_date >= ?"
+          self.cursor.execute(query, (user_nip, date))
+        else:
+          query = "SELECT * FROM invoices WHERE user_nip = ? AND gabinet_nip = ? AND issue_date >= ?"
+          self.cursor.execute(query, (user_nip, gabinet_nip, date))
+
         result = self.cursor.fetchall()
         return result    
     

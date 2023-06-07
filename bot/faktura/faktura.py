@@ -1,9 +1,12 @@
 from datetime import datetime
-from bot.db.db import *
-from bot.validation.validation import *
-from bot.lexicon.faktura import *
+from db.db import *
+from validation.validation import *
+from faktura.faktura_lex import *
+from faktura.banks import *
 from num2words import num2words
+import calendar
 import jinja2
+import weasyprint
 import pdfkit
 
 class Faktura:
@@ -57,11 +60,21 @@ class Faktura:
     self.bank = get_bank_name_by_number(account_number)
 
  def get_dates(self):
-  self.issue_date = str(datetime.date.today())
-  self.sale_date = datetime.date.today().replace(day=1) - datetime.timedelta(days=1)
-  self.sale_date_word = month[self.sale_date.strftime("%B")]
-  self.due_date = str(self.sale_date + datetime.timedelta(weeks=1))
-  self.sale_date = str(self.sale_date)
+    today = datetime.date.today()
+    if today.day == calendar.monthrange(today.year, today.month)[1]:
+        self.sale_date = today
+        self.due_date = str(today + datetime.timedelta(weeks=1))
+    else:
+        sale_date_temp = today.replace(day=1) - datetime.timedelta(days=1)
+        if today > sale_date_temp + datetime.timedelta(weeks=1):
+            self.sale_date = today
+            self.due_date = str(today + datetime.timedelta(weeks=1))
+        else:
+            self.sale_date = sale_date_temp
+            self.due_date = str(sale_date_temp + datetime.timedelta(weeks=1))
+
+    self.issue_date = str(today)
+    self.sale_date_word = month[self.sale_date.strftime("%B")]
 
  def set_dates(self, issue_date=None, sale_date=None, due_date=None):
   if issue_date is not None:
@@ -81,7 +94,10 @@ class Faktura:
                  'business_name': f"{business_name_text} {user_data[2]}",
                  'address': f"{user_data[0]} {user_data[1]}",
                  'nip': self.user_nip,
-                 'phone': ''}
+                 'bank': get_bank_name_by_number(user_data[3]),
+                 'account_number': user_data[3],
+                 'phone': ""}
+    print(user_data[3])
 
  def get_gabinet_data(self):
     with File(maintain_db) as db: 
@@ -89,8 +105,8 @@ class Faktura:
         gabinet_data = db.get_gabinet_data_by_nip(self.gabinet_nip)
       except:
         return
-    self.gabinet = {'business_name': gabinet_data[1],
-                    'address': gabinet_data[0],
+    self.gabinet = {'business_name': format_name(gabinet_data[1]),
+                    'address': format_address(gabinet_data[0]),
                     'nip': self.gabinet_nip}
 
  def get_service_data(self):
@@ -157,9 +173,10 @@ class Faktura:
    print('generating invoice...')
    template = jinja2.Template(template_str)   
    rendered_template = template.render(**data)
-   wkhtmltopdf="C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltopdf.exe"
+   wkhtmltopdf="C:\\Users\Yahor Novik\\Desktop\\lekarz-dentysta\\venv\\bot\\faktura\\wkhtmltopdf.exe" 
+   #/venv/bot/faktura
+   #"C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltopdf.exe" 
    options={"enable-local-file-access": ""}
-   #css=['bot/faktura/css/reset.css', 'bot/faktura/css/style.css']
    css=['bot/faktura/css/style2.css', 'bot/faktura/css/reset.css']
    file = str(f"bot/faktura/faktury/Faktura.pdf")
    pdfkit.from_string(rendered_template, file, configuration=pdfkit.configuration(wkhtmltopdf=wkhtmltopdf), options=options, css=css)
@@ -169,6 +186,29 @@ class Faktura:
          return data['invoice_number']
        except:
          return
+#  def get_faktura(self, data):
+#     template_path = 'bot/faktura/invoice-template.html.jinja'
+#     css_paths = ['bot/faktura/css/style2.css', 'bot/faktura/css/reset.css']
+#     output_pdf_path = 'bot/faktura/faktury/Faktura-new.pdf'
+
+#     with open(template_path, 'r', encoding='utf-8') as f:
+#         template_str = f.read()
+
+#     template = jinja2.Template(template_str)
+#     rendered_template = template.render(**data)
+
+#     rendered_html = weasyprint.HTML(string=rendered_template)
+#     rendered_pdf = rendered_html.write_pdf(stylesheets=css_paths)
+
+#     with open(output_pdf_path, 'wb') as pdf_file:
+#         pdf_file.write(rendered_pdf)
+
+#     with File(maintain_db) as db:
+#         try:
+#             db.add_invoice(data)
+#             return data['invoice_number']
+#         except:
+#             return
     
   
 

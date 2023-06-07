@@ -2,18 +2,18 @@ from aiogram import Router
 from aiogram.fsm.context import FSMContext
 from aiogram.types import CallbackQuery, Message
 from aiogram.filters import StateFilter, Command, Text
+from aiogram.fsm.state import default_state
 
-from bot.db.db import maintain_db, File
+from db.db import maintain_db, File
 from bot.keyboard.keyboard import *
 from bot.validation.validation import validate_amount, validate_nip
 from bot.parser.parser import *
-from bot.FSMstate.fsm import *
+from FSMstate.fsm import *
 
 router: Router = Router()
 
 # command
-@router.message(Command(commands='add_payment'))
-@router.message(Command(commands='add_payment'), StateFilter(FSMFillForm.default_state))
+@router.message(Command(commands='add_payment'), StateFilter(default_state))
 async def process_add_payment(message: Message, state: FSMContext):    
       with File(maintain_db, 'users.db') as db:
          try:
@@ -22,7 +22,7 @@ async def process_add_payment(message: Message, state: FSMContext):
              gabinets = db.get_gabinets_by_user_nip(nip)
          except:
            await message.answer("Не удалось найти кабинеты, что-то пошло не так...")
-           await FSMFillForm.default_state.set()
+           await state.clear()
            return
       if nip != None:
         await message.answer(text ='Выберите кабинет:', reply_markup=get_markup_gabinet(gabinets))
@@ -57,7 +57,7 @@ async def process_amount(message: Message, state: FSMContext):
               gabinet = db.get_gabinet_name(gabinet_nip)
           except:
               await message.answer("Не удалось добавить транзакцию, что-то пошло не так...")
-              state.set_state(FSMFillForm.default_state)
+              await state.clear()
               return
         await state.update_data(payment_id=payment_id)
         await message.answer(text = "Транзакция успешно добавлена:", reply_markup=get_markup_pyament_menu(gabinet=gabinet, amount=message.text))
@@ -71,7 +71,7 @@ async def process_add_more_payment(callback: CallbackQuery, state: FSMContext):
          gabinets = db.get_gabinets_by_user_nip(nip)
        except:
          await callback.message.answer("Не удалось найти кабинеты, что-то пошло не так...")
-         await state.set_state(FSMFillForm.default_state)
+         await state.clear()
          return
 
     await callback.message.delete()
@@ -96,7 +96,7 @@ async def process_add_description(message: Message, state: FSMContext):
         db.set_description(data['payment_id'], message.text)
       except:
         await message.answer("Не удалось добавить описание, что-то пошло не так...")
-        await state.set_state(FSMFillForm.default_state)
+        await state.clear()
         return
    else:
       await message.answer("Неправильный формат, введите описание:")
@@ -122,7 +122,7 @@ async def process_edit_choice(callback_query: CallbackQuery, state: FSMContext):
          gabinets = db.get_gabinets_by_user_nip(nip)
        except:
          await callback_query.message.answer("Не удалось найти кабинеты, что-то пошло не так...")
-         await state.set_state(FSMFillForm.default_state)
+         await state.clear()
          return
     await callback_query.message.answer("Выберите кабинет:", reply_markup=get_markup_gabinet(gabinets))
     await state.set_state(FSMFillForm.edit_payment_data)
@@ -134,11 +134,11 @@ async def process_edit_choice(callback_query: CallbackQuery, state: FSMContext):
        try:
          payment_id = db.get_last_payment_id()
          db.delete_payment(int(payment_id))
-         await state.set_state(FSMFillForm.default_state)
+         await state.clear()
          await callback_query.message.answer("Транзакция удалена. Чем еще могу помочь?")
        except:
          await callback_query.message.answer("Не удалось удалить транзакцию, что-то пошло не так...")
-         await state.set_state(FSMFillForm.default_state)
+         await state.clear()
          return      
 
 @router.callback_query(StateFilter(FSMFillForm.edit_payment_data))
@@ -149,15 +149,15 @@ async def process_edit_payment_gabinet(callback_query: CallbackQuery, state: FSM
        try:
          payment_id = db.get_last_payment_id()
          db.edit_payment(payment_id=payment_id, gabinet_nip=callback_query.data)
-         await state.set_state(FSMFillForm.default_state)
+         await state.clear()
          await callback_query.message.answer("Транзакция изменена. Чем еще могу помочь?")
        except:
          await callback_query.message.answer("Не удалось изменить кабинет, что-то пошло не так...")
-         await state.set_state(FSMFillForm.default_state)
+         await state.clear()
          return
    else:
       await callback_query.message.answer("Что-то пошло не так...")
-      await state.set_state(FSMFillForm.default_state)
+      await state.clear()
       return
    
 @router.message(StateFilter(FSMFillForm.edit_payment_data))
@@ -168,13 +168,13 @@ async def process_edit_payment_amount(message: Message, state: FSMContext):
        try:
          payment_id = db.get_last_payment_id()
          db.edit_payment(payment_id=payment_id, amount=message.text)
-         await state.set_state(FSMFillForm.default_state)
+         await state.clear()
          await message.answer("Транзакция изменена. Чем еще могу помочь?")
        except:
          await message.answer("Не удалось изменить кабинет, что-то пошло не так...")
-         await state.set_state(FSMFillForm.default_state)
+         await state.clear()
          return
    else:
       await message.answer("Что-то пошло не так...")
-      await state.set_state(FSMFillForm.default_state)
+      await state.clear()
       return    

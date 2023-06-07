@@ -2,15 +2,6 @@
   size: A4 portrait;
 } */
 
-:root {
-  --doc-width: 1000px;
-  --doc-left-right-margin: 20px;
-  --col-gap: 100px;
-  --col-2x-width: 200px;
-  --col-4x-width: 70px;
-  --border-color: #f2f4f7;
-}
-
 h1 {
   font: 900 60px/35px 'Poppins';
   letter-spacing: 0.035em;
@@ -50,13 +41,59 @@ body {
 
 .divider {
   border-bottom: 3px solid #f2f4f7;
+  width: 1000px;
+}
+
+.divider2 {
+  border-bottom: 3px solid #d1d1d1;
+  width: 1025px;
 }
 
 /* DIVIDER <<<<<<<<<<<<<< */
 
+/* >>>>>>>>>>>>>> PAYMENT DETAILS */
+
+.payment-details-container {
+  padding-top: 25px;
+  padding-bottom: 25px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column;
+          flex-flow: column;
+  font-size: 12;
+  width: 1000px;
+}
+
+.payment-method,
+.due-date,
+.account-number,
+.transfer-title {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-box;
+  -webkit-column-gap: 20px;
+     -moz-column-gap: 20px;
+          column-gap: 20px;
+  margin-bottom: 10px; 
+}
+
+.payment-method__label,
+.due-date__label,
+.account-number__label,
+.transfer-title__label {
+  font: 600 12px/14px 'Hind';
+}
+
+/* PAYMENT DETAILS <<<<<<<<<<<<<< */
+
 /* >>>>>>>>>>>>>> CREDENTIALS */
 
 .credentials-container {
+  padding-top: 25px;
+  padding-bottom: 25px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: -webkit-box;
@@ -74,9 +111,7 @@ body {
   -webkit-box-direction: normal;
       -ms-flex-flow: column;
           flex-flow: column;
-  row-gap: 1px;
-  column-gap: 150px;
-  width: 400px;
+  width: 500px;
 }
 
 .seller-details__content,
@@ -88,9 +123,20 @@ body {
   -webkit-box-direction: normal;
       -ms-flex-flow: column;
           flex-flow: column;
-  row-gap: 5px;
-  width: 400px;
-  column-gap: 150;
+  width: 500px;
+}
+
+.content__name,
+.content__address,
+.content__nip,
+.account_number {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-box;
+  -webkit-column-gap: 20px;
+     -moz-column-gap: 20px;
+          column-gap: 20px;
+  margin-bottom: 7px; 
 }
 
 /* CREDENTIALS <<<<<<<<<<<<<< */
@@ -119,7 +165,7 @@ body {
   display: -webkit-box;
   display: -ms-flexbox;
   display: -webkit-box;
-  border-top: 1px solid #f2f4f7;
+  border-bottom: 1px solid #f2f4f7;
 }
 
 .table .row-header {
@@ -218,7 +264,6 @@ body {
 
 .table .total-wrapper .row{
   border-bottom: 1px solid #f2f4f7;
-  border-top: 0px;
 }
 
 .table .total-details .row{
@@ -235,7 +280,7 @@ body {
 /* >>>>>>>>>>>>>> SUMMARY */
 
 .summary-container {
-  padding-bottom: 27px;
+  padding-bottom: 25px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: -webkit-box;
@@ -252,101 +297,52 @@ body {
   display: -webkit-box;
   display: -ms-flexbox;
   display: -webkit-box;
+  margin-bottom: 10px; 
 }
 
 .in-total__label,
 .in-total-verbally__label,
 .notes__label {
-  min-width: var(--col-4x-width);
   font: 600 12px/14px 'Hind';
   text-align: right;
 }
 
-
-
 /* SUMMARY <<<<<<<<<<<<<< */
-
-/* >>>>>>>>>>>>>> PAYMENT DETAILS */
-
-.payment-details-container {
-  padding-top: 27px;
-  padding-bottom: 27px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-flow: column;
-          flex-flow: column;
-  row-gap: 20px;
-  font-size: 12;
-}
-
-.payment-details-container {
-  row-gap: 20px;
-}
-
-.payment-method,
-.due-date,
-.account-number,
-.transfer-title {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: -webkit-box;
-  -webkit-column-gap: 20px;
-     -moz-column-gap: 20px;
-          column-gap: 20px;
-  row-gap: 7px;
-}
-
-.payment-method__label,
-.due-date__label,
-.account-number__label,
-.transfer-title__label {
-  min-width: var(--col-4x-width);
-  font: 600 12px/14px 'Hind';
-}
-
-/* PAYMENT DETAILS <<<<<<<<<<<<<< */
 
 /* >>>>>>>>>>>>>> SIGNATURES */
 
 .signatures-container {
-  padding-top: 77px;
-  padding-bottom: 27px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: -webkit-box;
   -webkit-column-gap: 20px;
      -moz-column-gap: 20px;
           column-gap: 20px;
-          text-align: right;
+          text-align: left;
 }
 
-.buyer-signature,
 .seller-signature {
-  padding-top: 47px;
+  padding-top: 75px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: -webkit-box;
-  width: 1000px;
+  width: 200px;
   height: 80px;
   position: relative;
+  margin-left: 800px;
 }
 
 .seller-signature__value{
   position: absolute;
-  font: 600 12px/10px 'Hind';
-  width: 900px;
-  text-align: right;
+  width: 200px;
+  text-align: left;
 }
 .seller-signature__capture {
   position: absolute;
-  bottom: 2px;
-  color: #3c3c3d;
-  font-size: 7px;
-  width: 900px;
-  text-align: right;
+  bottom: 10px;
+  font: 600 12px/10px 'Hind';
+  width: 200px;
+  text-align: left;
 }
 
 /* SIGNATURES <<<<<<<<<<<<<< */

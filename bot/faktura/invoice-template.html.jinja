@@ -14,7 +14,8 @@
         business_name: string,
         address: string,
         nip: string
-        phone: string
+        bank: string,
+        account_number: string
     }
 
     cabinet: {
@@ -75,42 +76,42 @@
   <body>
     <div class="payment-details-container">
         <div class="payment-method">
-          <p class="payment-method__label">Faktura numer:&nbsp;&nbsp;</p>
-          <p class="payment-method__value">{{ invoice_number }}</p>
+          <div class="payment-method__label">Faktura numer:&nbsp;&nbsp;</div>
+          <div class="payment-method__value">{{ invoice_number }}</div>
         </div>
         <div class="due-date">
-          <p class="due-date__label">&nbsp;&nbsp;</p>
+          <div class="due-date__label">&nbsp;&nbsp;</div>
         </div>
         <div class="due-date">
-          <p class="due-date__label">Data wystawienia:&nbsp;&nbsp;</p>
-          <p class="due-date__value">{{ issue_date }}</p>
+          <div class="due-date__label">Data wystawienia:&nbsp;&nbsp;</div>
+          <div class="due-date__value">{{ issue_date }}</div>
         </div>
         <div class="account-number">
-          <p class="account-number__label">Data sprzedaży:&nbsp;&nbsp;</p>
-          <p class="account-number__value">{{ sale_date }}</p>
+          <div class="account-number__label">Data sprzedaży:&nbsp;&nbsp;</div>
+          <div class="account-number__value">{{ sale_date }}</div>
         </div>
         <div class="due-date">
-          <p class="due-date__label">Termin płatności:&nbsp;&nbsp;</p>
-          <p class="due-date__value">{{ due_date }}</p>
+          <div class="due-date__label">Termin płatności:&nbsp;&nbsp;</div>
+          <div class="due-date__value">{{ due_date }}</div>
         </div>
         <div class="transfer-title">
-          <p class="transfer-title__label">Sposób płatności:&nbsp;&nbsp;</p>
-          <p class="transfer-title__value">{{ payment_method }}</p>
+          <div class="transfer-title__label">Sposób płatności:&nbsp;&nbsp;</div>
+          <div class="transfer-title__value">{{ payment_method }}</div>
         </div>
       </div>
-
-    <div class="divider"></div>
+      <div class="divider2"></div>
 
     <main class="main">
       <div class="credentials-container">
         <div class="seller-details">
           <h2 class="seller-details__subtitle">Sprzedawca: </h2>
           <div class="seller-details__content">
-            <p class="content__name">{{ user.business_name }}</p>
-            <p class="content__address">{{ user.address }}</p>
-            <p class="content__nip">NIP: {{ user.nip }}</p>
-            {% if user.phone %}
-            <p class="content__phone">Tel: {{ user.phone }}</p>
+            <div class="content__name">{{ user.business_name }}</div>
+            <div class="content__address">{{ user.address }}</div>
+            <div class="content__nip">NIP: {{ user.nip }}</div>
+            {% if user.account_number %}
+            <div class="bank">{{ user.bank }}</div>
+            <div class="account_number">{{ user.account_number }}</div>
             {% endif %}
           </div>
         </div>
@@ -118,17 +119,15 @@
         <div class="buyer-details">
           <h2 class="buyer-details__subtitle">Nabywca: </h2>
           <div class="buyer-details__content">
-            <p class="content__name">{{ cabinet.business_name }}</p>
-            <p class="content__address">{{ cabinet.address }}</p>
-            <p class="content__nip">NIP: {{ cabinet.nip }}</p>
+            <div class="content__name">{{ cabinet.business_name }}</div>
+            <div class="content__address">{{ cabinet.address }}</div>
+            <div class="content__nip">NIP: {{ cabinet.nip }}</div>
           </div>
         </div>
       </div>
 
-      <div class="divider"></div>
-
       <!-- TABLE -->
-
+      <div class="divider"></div>
       <div class="table">
         <div class="row row-header">
           <div class="col col-index col-header">Lp</div>
@@ -184,24 +183,24 @@
 
       <div class="summary-container">
         <div class="in-total">
-          <p class="in-total__label">Razem do zapłaty:&nbsp;&nbsp;</p>
-          <p class="in-total__value">{{ in_total.price_brutto|round(2) }} PLN</p>
+          <div class="in-total__label">Razem do zapłaty:&nbsp;&nbsp;</div>
+          <div class="in-total__value">{{ in_total.price_brutto|round(2) }} PLN</div>
         </div>
         <div class="in-total-verbally">
-          <p class="in-total-verbally__label">Słownie:&nbsp;&nbsp;</p>
-          <p class="in-total-verbally__value">{{ in_total.price_brutto_verbally }}</p>
+          <div class="in-total-verbally__label">Słownie:&nbsp;&nbsp;</div>
+          <div class="in-total-verbally__value">{{ in_total.price_brutto_verbally }}</div>
         </div>
         {% if notes %}
         <div class="notes">
-          <p class="notes__label">Uwagi:&nbsp;&nbsp;</p>
-          <p class="notes__value">{{ notes }}</p>
+          <div class="notes__label">Uwagi:&nbsp;&nbsp;</div>
+          <div class="notes__value">{{ notes }}</div>
         </div>
         {% endif %}
       </div>
-      <div class="divider"></div>
+  <div class="divider"></div>
         <div class="seller-signature">
-          <div class="seller-signature__value">{{ user.name }}&nbsp;&nbsp;</div>
-          <div class="seller-signature__capture">Imię, nazwisko i podpis osoby upoważnionej do wystawienia dokumentu</div>
+          <div class="seller-signature__value">{{ user.name }}</div>
+          <div class="seller-signature__capture">Imię i nazwisko wystawcy</div>
         </div>
       </div>
     </main>

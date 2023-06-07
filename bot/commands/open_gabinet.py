@@ -2,17 +2,18 @@ from aiogram import Router
 from aiogram.fsm.context import FSMContext
 from aiogram.types import CallbackQuery, Message
 from aiogram.filters import StateFilter, Command, Text
+from aiogram.fsm.state import default_state
 
-from bot.db.db import maintain_db, File
+from db.db import maintain_db, File
 from bot.keyboard.keyboard import *
-from bot.FSMstate.fsm import *
+from FSMstate.fsm import *
 
 import datetime
 
 router: Router = Router()
 
 # command open gabinet
-@router.message(Command(commands='open_gabinet'), StateFilter(FSMFillForm.default_state))
+@router.message(Command(commands='open_gabinet'), StateFilter(default_state))
 @router.message(Command(commands='open_gabinet'))
 async def process_open_gabinet_command(message: Message, state: FSMContext):   
     with File(maintain_db, 'users.db') as db:
@@ -21,7 +22,7 @@ async def process_open_gabinet_command(message: Message, state: FSMContext):
          gabinets = db.get_gabinets_by_user_nip(nip)
        except:
          await message.answer("Не удалось найти кабинеты, что-то пошло не так...")
-         await state.set_state(FSMFillForm.default_state)
+         await state.clear()
          return
     if nip is not None:
       await message.answer(text ='Выберите кабинет:', reply_markup=get_markup_gabinet(gabinets))
@@ -31,7 +32,7 @@ async def process_open_gabinet_command(message: Message, state: FSMContext):
      await message.answer('Сначала нужно зарегистрироваться.')
 
 # command add gabinet
-@router.message(Command(commands='add_gabinet'), StateFilter(FSMFillForm.default_state))
+@router.message(Command(commands='add_gabinet'), StateFilter(default_state))
 async def process_add_gabinet_command(message: Message, state: FSMContext):    
     await message.answer('Введите NIP кабинета:')
     await state.set_state(FSMFillForm.gabinet_nip)
@@ -82,13 +83,33 @@ async def process_open_payments_period(callback_query: CallbackQuery, state: FSM
            name = db.get_gabinet_name(gabinet_nip)
          except:
            await callback_query.message.answer("Не удалось найти транзакции, что-то пошло не так...")
-           await state.set_state(FSMFillForm.default_state)
+           await state.clear()
            return
        
        await state.update_data(payments=payments)
        await state.update_data(gabinet_name=name)
        await callback_query.message.answer(text=f"Ваши транзакции за {text}:", reply_markup=get_payments_by_gabinet_markup(payments, name))
        await state.set_state(FSMFillForm.payments_view)
+
+@router.callback_query(Text(text=['add_invoice_gabinet']), StateFilter(FSMFillForm.gabinet_opened))
+async def process_gabinet_opened(callback_query: CallbackQuery, state: FSMContext):
+      await callback_query.message.delete()    
+      data = await state.get_data()
+      gabinet_nip = data['gabinet_nip']
+      today = datetime.date.today()
+      start_date = datetime.date(today.year, today.month, 1)
+      end_date = start_date.replace(day=28) + datetime.timedelta(days=4)
+      end_date = end_date - datetime.timedelta(days=end_date.day)
+
+      with File(maintain_db, 'users.db') as db:
+        payments = db.get_payments_by_gabinet_and_date(int(gabinet_nip), str(start_date), str(end_date))
+
+      total = 0
+      for item in payments:
+        total += item[3]
+      await state.update_data(amount=total)
+      await callback_query.message.answer(f'Сумма транзакций за месяц: {total} zl. Сумма корректна?', reply_markup=get_yesno_keyboard())
+      await state.set_state(FSMFillForm.invoice_amount)
 
 @router.callback_query(StateFilter(FSMFillForm.gabinet_opened))
 async def process_gabinet_opened(callback_query: CallbackQuery, state: FSMContext):
@@ -100,7 +121,7 @@ async def process_gabinet_opened(callback_query: CallbackQuery, state: FSMContex
 async def process_exit(callback_query: CallbackQuery, state: FSMContext):
    await callback_query.message.delete()
    await callback_query.message.answer("Чем еще могу помочь?")
-   await state.set_state(FSMFillForm.default_state)
+   await state.clear()
 
 @router.callback_query(Text(text=['dummy']), StateFilter(FSMFillForm.payments_view))
 async def process_dummy(callback_query: CallbackQuery, state: FSMContext):

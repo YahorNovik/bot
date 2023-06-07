@@ -4,10 +4,11 @@ from aiogram.types import CallbackQuery, Message
 from aiogram.filters import StateFilter, Text, Command
 from aiogram.fsm.context import FSMContext
 from bot.validation.validation import validate_nip, validate_account_number, validate_address
-from bot.FSMstate.fsm import *
+from aiogram.fsm.state import default_state
+from FSMstate.fsm import *
 from bot.parser.parser import get_user_data, get_gabinet_data
 from bot.keyboard.keyboard import *
-from bot.db.db import *
+from db.db import *
 import time
 
 router: Router = Router()
@@ -15,8 +16,18 @@ router: Router = Router()
 # command
 @router.message(Command(commands='logon'))
 async def process_logon_command(message: Message, state: FSMContext):    
-    await message.answer('Введите NIP:')
-    await state.set_state(FSMFillForm.user_nip)
+    with File(maintain_db, 'users.db') as db:
+       try:
+         nip = db.get_user_nip_by_id(message.from_user.id)
+       except:
+         await state.clear()
+         await message.answer('Что-то пошло не так...')
+         return   
+    if nip is None:
+      await message.answer('Введите NIP:')
+      await state.set_state(FSMFillForm.user_nip)
+    else:
+      await message.answer('Вы уже зарегистрированны!')
 
 # confirm data user
 @router.callback_query(Text(text=['yes']), StateFilter(FSMFillForm.user_nip))
@@ -57,13 +68,13 @@ async def process_yes_button_gabinet(callback_query: CallbackQuery, state: FSMCo
 async def process_no_button_gabinet(callback_query: CallbackQuery, state: FSMContext):
     await callback_query.message.delete()
     await callback_query.message.answer(text = 'Данные выше получены из официальной базы данных. Если данные неправильны, проверьте NIP кабинета.')
-    await state.set_state(FSMFillForm.default_state)
+    await state.clear()
 
 @router.callback_query(Text(text=['no_add']), StateFilter(FSMFillForm.user_nip))
 async def process_no_add(callback_query: CallbackQuery, state: FSMContext):
     await callback_query.message.delete()
     await callback_query.message.answer('Кабинет был успешно добавлен')
-    await state.set_state(FSMFillForm.default_state)
+    await state.clear()
 
 @router.callback_query(Text(text=['yes_add']), StateFilter(FSMFillForm.user_nip))
 async def process_no_add(callback_query: CallbackQuery, state: FSMContext):
@@ -126,7 +137,7 @@ async def process_yes_button_gabinet_manually(callback_query: CallbackQuery, sta
 async def process_no_button_gabinet_manually(callback_query: CallbackQuery, state: FSMContext):
     await callback_query.message.delete()
     await callback_query.message.answer(text = 'Чем еще могу помочь?')
-    await state.set_state(FSMFillForm.default_state)
+    await state.clear()
 
 @router.message(StateFilter(FSMFillForm.add_gabinet_manually))
 async def process_address(message: Message, state: FSMContext):

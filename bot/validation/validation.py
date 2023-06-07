@@ -1,6 +1,6 @@
 import re
-from bot.db.db import maintain_db, File
-from bot.lexicon.banks import *
+from db.db import maintain_db, File
+from validation.banks import *
 
 def validate_nip(nip: str) -> bool:
     weights = [6, 5, 7, 2, 3, 4, 5, 6, 7]
@@ -36,6 +36,7 @@ def validate_account_number(account_number):
     return True, get_bank_name_by_number(number)
 
 def get_bank_name_by_number(account_number):
+    account_number = str(account_number).replace(' ', '')
     bank_code = account_number[2:6]
     bank_name = banks.get(bank_code)
     return bank_name
@@ -58,3 +59,28 @@ def check_user_exists(id):
              return False
        except:
          raise Exception("Error") 
+
+def format_address(address):
+    if address.startswith("ul."):
+        return address
+    else:
+        parts = address.split(", ")
+        street = parts[0].split(" ")
+        city = parts[1].split(" ")
+        number = street[1]
+        street = street[0].title()
+        index = city[0]
+        city = city[1].title()
+        formatted_address = f"ul. {street} {number}, {index} {city}"
+        return formatted_address
+
+def format_name(name):
+        parts = name.split(" ")
+        formatted_name = str('')
+        for part in parts:
+            if len(part) >1:
+              part = part.title()
+            else:
+                part = part.lower()
+            formatted_name = str(formatted_name) + str(part) + " "
+        return formatted_name

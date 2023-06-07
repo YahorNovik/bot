@@ -82,9 +82,11 @@ def get_gabinet_keyboard():
                                   callback_data="add_payment_gabinet")
     bt_trs = InlineKeyboardButton(text="Октрыть транзакции",
                                   callback_data="open_payments")
+    bt_inv = InlineKeyboardButton(text="Выставить фактуру",
+                                  callback_data="add_invoice_gabinet")
     bt_exit = InlineKeyboardButton(text="Выйти",
                                    callback_data="payment_exit")
-    markup.row(bt_pay, bt_trs, bt_exit, width=1)
+    markup.row(bt_pay, bt_trs, bt_inv, bt_exit, width=1)
     return markup.as_markup()
 
 def get_open_payments_keyboard():

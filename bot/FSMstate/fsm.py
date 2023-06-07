@@ -1,7 +1,6 @@
 from aiogram.filters.state import State, StatesGroup
 
 class FSMFillForm(StatesGroup):
-    default_state = State()
     user_nip = State()
     account_number = State()        
     gabinet_nip = State()

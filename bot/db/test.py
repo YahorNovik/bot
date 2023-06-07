@@ -27,15 +27,15 @@ cursor = conn.cursor()
 #                     accountNumber INTEGER,
 #                     PRIMARY KEY (nip, regon, user_id)
 #                  )''')
-cursor.execute("DROP TABLE gabinets")
-cursor.execute('''CREATE TABLE gabinets (
-                    NIP INTEGER,
-                    USER_NIP INTEGER,
-                    Address TEXT,
-                    Name TEXT,
-                    PRIMARY KEY (NIP, USER_NIP),
-                    FOREIGN KEY (USER_NIP) REFERENCES users(nip)
-                 )''')
+# cursor.execute("DROP TABLE gabinets")
+# cursor.execute('''CREATE TABLE gabinets (
+#                     NIP INTEGER,
+#                     USER_NIP INTEGER,
+#                     Address TEXT,
+#                     Name TEXT,
+#                     PRIMARY KEY (NIP, USER_NIP),
+#                     FOREIGN KEY (USER_NIP) REFERENCES users(nip)
+#                  )''')
 
 #cursor.execute('DROP TABLE IF EXISTS invoices')
 
@@ -86,6 +86,10 @@ cursor.execute('''CREATE TABLE gabinets (
 #                     FOREIGN KEY (USER_NIP) REFERENCES users(nip),
 #                     FOREIGN KEY (GABINET_NIP) REFERENCES gabinets(nip)
 #                  )''')
+
+cursor.execute('DELETE FROM invoices')
+conn.commit()
+conn.close()
 
 # execute a SELECT statement to get the table names
 cursor.execute("SELECT name FROM sqlite_master WHERE type='table'")
