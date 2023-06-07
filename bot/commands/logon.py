@@ -17,12 +17,12 @@ router: Router = Router()
 @router.message(Command(commands='logon'))
 async def process_logon_command(message: Message, state: FSMContext):    
     with File(maintain_db, 'users.db') as db:
-       #try:
+       try:
          nip = db.get_user_nip_by_id(message.from_user.id)
-       #except:
-         #await state.clear()
-         #await message.answer('Что-то пошло не так...')
-         #return   
+       except:
+         await state.clear()
+         await message.answer('Что-то пошло не так...')
+         return   
     if nip is None:
       await message.answer('Введите NIP:')
       await state.set_state(FSMFillForm.user_nip)
@@ -89,7 +89,7 @@ async def process_nip(message: Message, state: FSMContext):
         await message.answer('Неправильный номер NIP.')
         await message.answer('Введите NIP:')
     else :
-        try:
+        #try:
           user_data = get_user_data(message.text)
           await state.update_data(nip=message.text)
           await state.update_data(name=user_data['Name'])
@@ -103,8 +103,8 @@ async def process_nip(message: Message, state: FSMContext):
 
           time.sleep(2)
           await message.answer(text = 'Данные корректны?', reply_markup= get_yesno_keyboard())
-        except Exception as err:
-          await message.answer(text = 'Не могу найти данные по номеру NIP')
+        #except Exception as err:
+        #  await message.answer(text = 'Не могу найти данные по номеру NIP')
     
 @router.message(StateFilter(FSMFillForm.gabinet_nip))
 async def process_gabinet_nip(message: Message, state: FSMContext):
