@@ -8,7 +8,7 @@ from aiogram import Bot
 from db.db import maintain_db, File
 from bot.keyboard.keyboard import *
 from bot.validation.validation import validate_amount
-from bot.parser.parser import *
+from bot.parser.parser_code import *
 from FSMstate.fsm import *
 from bot.faktura.faktura import *
 from decimal import Decimal
@@ -66,11 +66,11 @@ async def process_yes(callback_query: CallbackQuery, state: FSMContext):
     data=faktura.get_data()
     number=faktura.get_faktura(data)
 
-    #pdf = FSInputFile("bot/faktura/faktury/Faktura.pdf")
+    pdf = FSInputFile("bot/faktura/faktury/Faktura.pdf")
           
-    #media = InputMediaDocument(type=InputMediaType.DOCUMENT, media=pdf)
+    media = InputMediaDocument(type=InputMediaType.DOCUMENT, media=pdf)
     await callback_query.message.answer(f'Фактура номер {number} успешно создана!')
-    #await callback_query.message.answer_media_group([media])
+    await callback_query.message.answer_media_group([media])
 
 @router.callback_query(Text(text=['no']), StateFilter(FSMFillForm.invoice_amount))
 async def process_no(callback_query: CallbackQuery, state: FSMContext):

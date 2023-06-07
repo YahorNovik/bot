@@ -7,7 +7,7 @@ from aiogram.fsm.state import default_state
 from db.db import maintain_db, File
 from bot.keyboard.keyboard import *
 from bot.validation.validation import validate_amount, validate_nip
-from bot.parser.parser import *
+from bot.parser.parser_code import *
 from FSMstate.fsm import *
 
 router: Router = Router()
