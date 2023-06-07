@@ -5,8 +5,8 @@ from aiogram.filters import StateFilter, Command, Text
 from aiogram.fsm.state import default_state
 
 from db.db import maintain_db, File
-from bot.keyboard.keyboard import *
-from bot.validation.validation import validate_amount, validate_nip
+from keyboard.keyboard import *
+from validation.validation import validate_amount, validate_nip
 from bot.parser.parser import *
 from FSMstate.fsm import *
 
