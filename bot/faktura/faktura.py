@@ -6,7 +6,6 @@ from faktura.banks import *
 from num2words import num2words
 import calendar
 import jinja2
-import weasyprint
 import pdfkit
 
 class Faktura:
