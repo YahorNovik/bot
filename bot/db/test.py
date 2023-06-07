@@ -1,5 +1,5 @@
-from bot.db.db import maintain_db
-from bot.db.db import File
+from db.db import maintain_db
+from db.db import File
 
 import sqlite3
 
