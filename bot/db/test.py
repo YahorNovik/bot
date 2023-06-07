@@ -1,5 +1,5 @@
-from db.db import maintain_db
-from db.db import File
+from db import maintain_db
+from db import File
 
 import sqlite3
 
