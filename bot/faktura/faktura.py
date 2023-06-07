@@ -172,7 +172,7 @@ class Faktura:
    print('generating invoice...')
    template = jinja2.Template(template_str)   
    rendered_template = template.render(**data)
-   wkhtmltopdf="/home/egornovik2010/bot/bot/faktura/wkhtmltopdf.exe" 
+   wkhtmltopdf="/home/egornovik2010/bot/bot/faktura/wkhtmltox_0.12.6.1-2.bullseye_amd64.deb" 
    #/venv/bot/faktura
    #"C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltopdf.exe" 
    options={"enable-local-file-access": ""}
