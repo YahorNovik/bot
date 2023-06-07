@@ -17,12 +17,12 @@ router: Router = Router()
 @router.message(Command(commands='logon'))
 async def process_logon_command(message: Message, state: FSMContext):    
     with File(maintain_db, 'users.db') as db:
-       try:
+       #try:
          nip = db.get_user_nip_by_id(message.from_user.id)
-       except:
-         await state.clear()
-         await message.answer('Что-то пошло не так...')
-         return   
+       #except:
+         #await state.clear()
+         #await message.answer('Что-то пошло не так...')
+         #return   
     if nip is None:
       await message.answer('Введите NIP:')
       await state.set_state(FSMFillForm.user_nip)
