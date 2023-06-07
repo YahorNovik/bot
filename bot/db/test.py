@@ -8,7 +8,7 @@ path = '/Users/a1/Desktop/lekarz-dentysta/venv/bot/db/users.db'
 path = '/Users/a1/Desktop/bot/venv/dev_bot/spendings.db'
 
 # connect to the database
-conn = sqlite3.connect('users.db')
+conn = sqlite3.connect('/home/egornovik2010/bot/bot/users.db')
 
 # create a cursor object
 cursor = conn.cursor()
@@ -16,17 +16,17 @@ cursor = conn.cursor()
 #cursor.execute('ALTER TABLE gabinets DROP COLUMN city')
 # cursor.execute('DROP TABLE IF EXISTS users')
 
-# cursor.execute('''CREATE TABLE users (
-#                     user_id INTEGER,
-#                     nip INTEGER,
-#                     regon INTEGER,
-#                     address TEXT,
-#                     city TEXT,
-#                     name TEXT,
-#                     registrationDate TEXT,
-#                     accountNumber INTEGER,
-#                     PRIMARY KEY (nip, regon, user_id)
-#                  )''')
+cursor.execute('''CREATE TABLE users (
+                    user_id INTEGER,
+                    nip INTEGER,
+                    regon INTEGER,
+                    address TEXT,
+                    city TEXT,
+                    name TEXT,
+                    registrationDate TEXT,
+                    accountNumber INTEGER,
+                    PRIMARY KEY (nip, regon, user_id)
+                 )''')
 # cursor.execute("DROP TABLE gabinets")
 # cursor.execute('''CREATE TABLE gabinets (
 #                     NIP INTEGER,
@@ -87,49 +87,7 @@ cursor = conn.cursor()
 #                     FOREIGN KEY (GABINET_NIP) REFERENCES gabinets(nip)
 #                  )''')
 
-cursor.execute('DELETE FROM invoices')
-conn.commit()
-conn.close()
-
-# execute a SELECT statement to get the table names
-cursor.execute("SELECT name FROM sqlite_master WHERE type='table'")
-
-# fetch all the rows in the result set
-rows = cursor.fetchall()
-
-# extract the table names from the rows and print them
-table_names = [row[0] for row in rows]
-print(table_names)
-
-cursor.execute("SELECT * FROM USERS")
-rows = cursor.fetchall()
-for row in rows:
-   print(row)
-
-cursor.execute("SELECT * FROM gabinets")
-rows = cursor.fetchall()
-for row in rows:
-   print(row)
-
-cursor.execute("SELECT * FROM payments")
-rows = cursor.fetchall()
-for row in rows:
-   print(row)
-
-with File(maintain_db, 'users.db') as db:
-
-    data=db.get_payments_by_gabinet_and_date(gabinet_nip=9662098244)
-
-for row in data:
-   print(row)
-
-
 # close the cursor and connection
 cursor.close()
 conn.close()
-
-#with File(maintain_db, "users.db") as db:
-#   result = db.get_sum_by_category(111115, '2023-01-15')
-#   for i in result:
-#      print (f'{i[0]} - {db.get_category_name(i[1])[0]}')
 
