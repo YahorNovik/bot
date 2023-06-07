@@ -3,10 +3,10 @@ from aiogram.fsm.context import FSMContext
 from aiogram.types import CallbackQuery, Message
 from aiogram.filters import StateFilter, Text, Command
 from aiogram.fsm.context import FSMContext
-from bot.validation.validation import validate_nip, validate_account_number
+from validation.validation import validate_nip, validate_account_number
 from FSMstate.fsm import *
-from bot.parser.parser_code import get_user_data, get_gabinet_data
-from bot.keyboard.keyboard import *
+from parser_folder.parser_code import get_user_data, get_gabinet_data
+from keyboard.keyboard import *
 from db.db import *
 from aiogram.fsm.state import default_state
 import time

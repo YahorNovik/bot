@@ -6,11 +6,11 @@ from aiogram.fsm.state import default_state
 from aiogram import Bot
 
 from db.db import maintain_db, File
-from bot.keyboard.keyboard import *
-from bot.validation.validation import validate_amount
-from bot.parser.parser_code import *
+from keyboard.keyboard import *
+from validation.validation import validate_amount
+from parser_folder.parser_code import *
 from FSMstate.fsm import *
-from bot.faktura.faktura import *
+from faktura.faktura import *
 from decimal import Decimal
 
 from aiogram.types import Message, InputMediaDocument

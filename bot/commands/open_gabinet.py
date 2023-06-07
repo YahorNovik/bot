@@ -5,7 +5,7 @@ from aiogram.filters import StateFilter, Command, Text
 from aiogram.fsm.state import default_state
 
 from db.db import maintain_db, File
-from bot.keyboard.keyboard import *
+from keyboard.keyboard import *
 from FSMstate.fsm import *
 
 import datetime
