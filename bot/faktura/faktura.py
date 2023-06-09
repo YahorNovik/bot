@@ -7,6 +7,7 @@ from num2words import num2words
 import calendar
 import jinja2
 import pdfkit
+import weasyprint
 
 class Faktura:
  
@@ -166,48 +167,48 @@ class Faktura:
                'in_total_details': [self.in_total_details]}
   return self.data
  
- def get_faktura(self, data):
-   with open('/home/egornovik2010/bot/bot/faktura/invoice-template.html.jinja', 'r', encoding='utf-8') as f:
-    template_str = f.read()
-   print('generating invoice...')
-   template = jinja2.Template(template_str)   
-   rendered_template = template.render(**data)
-   wkhtmltopdf="/home/egornovik2010/bot/bot/faktura/wkhtmltox_0.12.6.1-2.bullseye_amd64.deb" 
-   #/venv/bot/faktura
-   #"C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltopdf.exe" 
-   options={"enable-local-file-access": ""}
-   css=['/home/egornovik2010/bot/bot/faktura/css/style2.css', '/home/egornovik2010/bot/bot/faktura/css/reset.css']
-   file = str(f"/home/egornovik2010/bot/bot/faktura/faktury/Faktura.pdf")
-   pdfkit.from_string(rendered_template, file, configuration=pdfkit.configuration(wkhtmltopdf=wkhtmltopdf), options=options, css=css)
-   with File(maintain_db) as db: 
-       try:
-         db.add_invoice(data)
-         return data['invoice_number']
-       except:
-         return
 #  def get_faktura(self, data):
-#     template_path = 'bot/faktura/invoice-template.html.jinja'
-#     css_paths = ['bot/faktura/css/style2.css', 'bot/faktura/css/reset.css']
-#     output_pdf_path = 'bot/faktura/faktury/Faktura-new.pdf'
+#    with open('/home/egornovik2010/bot/bot/faktura/invoice-template.html.jinja', 'r', encoding='utf-8') as f:
+#     template_str = f.read()
+#    print('generating invoice...')
+#    template = jinja2.Template(template_str)   
+#    rendered_template = template.render(**data)
+#    wkhtmltopdf="/home/egornovik2010/bot/bot/faktura/wkhtmltox_0.12.6.1-2.bullseye_amd64.deb" 
+#    #/venv/bot/faktura
+#    #"C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltopdf.exe" 
+#    options={"enable-local-file-access": ""}
+#    css=['/home/egornovik2010/bot/bot/faktura/css/style2.css', '/home/egornovik2010/bot/bot/faktura/css/reset.css']
+#    file = str(f"/home/egornovik2010/bot/bot/faktura/faktury/Faktura.pdf")
+#    pdfkit.from_string(rendered_template, file, configuration=pdfkit.configuration(wkhtmltopdf=wkhtmltopdf), options=options, css=css)
+#    with File(maintain_db) as db: 
+#        try:
+#          db.add_invoice(data)
+#          return data['invoice_number']
+#        except:
+#          return
+ def get_faktura(self, data):
+    template_path = 'bot/faktura/invoice-template.html.jinja'
+    css_paths = ['bot/faktura/css/style2.css', 'bot/faktura/css/reset.css']
+    output_pdf_path = 'bot/faktura/faktury/Faktura.pdf'
 
-#     with open(template_path, 'r', encoding='utf-8') as f:
-#         template_str = f.read()
+    with open(template_path, 'r', encoding='utf-8') as f:
+        template_str = f.read()
 
-#     template = jinja2.Template(template_str)
-#     rendered_template = template.render(**data)
+    template = jinja2.Template(template_str)
+    rendered_template = template.render(**data)
 
-#     rendered_html = weasyprint.HTML(string=rendered_template)
-#     rendered_pdf = rendered_html.write_pdf(stylesheets=css_paths)
+    rendered_html = weasyprint.HTML(string=rendered_template)
+    rendered_pdf = rendered_html.write_pdf(stylesheets=css_paths)
 
-#     with open(output_pdf_path, 'wb') as pdf_file:
-#         pdf_file.write(rendered_pdf)
+    with open(output_pdf_path, 'wb') as pdf_file:
+        pdf_file.write(rendered_pdf)
 
-#     with File(maintain_db) as db:
-#         try:
-#             db.add_invoice(data)
-#             return data['invoice_number']
-#         except:
-#             return
+    with File(maintain_db) as db:
+        try:
+            db.add_invoice(data)
+            return data['invoice_number']
+        except:
+            return
     
   
 
