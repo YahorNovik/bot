@@ -15,6 +15,7 @@ router: Router = Router()
 
 # command
 @router.message(Command(commands='logon'))
+@router.message(Command(commands='start'))
 async def process_logon_command(message: Message, state: FSMContext):    
     with File(maintain_db, 'users.db') as db:
        try:
