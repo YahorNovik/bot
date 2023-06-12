@@ -30,3 +30,4 @@ async def process_logon_command(message: Message, state: FSMContext):
       await state.set_state(FSMFillForm.gabinet_nip)
     else:
       await message.answer('Сначала нужно зарегистрироваться.')
+

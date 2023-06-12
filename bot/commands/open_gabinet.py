@@ -27,6 +27,9 @@ async def process_open_gabinet_command(message: Message, state: FSMContext):
          await state.clear()
          return
     if nip is not None:
+      if len(gabinets) == 0:
+         await message.answer(text="Вы не добавили кабинеты. Добавить кабинет?", reply_markup=get_yesno_keyboard(yes = 'yes_add_gabinet', no = 'no_add_gabinet'))
+         return
       await message.answer(text ='Выберите кабинет:', reply_markup=get_markup_gabinet(gabinets))
       await state.update_data(user_nip=nip)
       await state.set_state(FSMFillForm.gabinet_opened)
@@ -38,6 +41,25 @@ async def process_open_gabinet_command(message: Message, state: FSMContext):
 async def process_add_gabinet_command(message: Message, state: FSMContext):    
     await message.answer('Введите NIP кабинета:')
     await state.set_state(FSMFillForm.gabinet_nip)
+
+@router.callback_query(Text(text=['yes_add_gabinet']), StateFilter(default_state))
+async def process_add_gabinet_command(callback_query: CallbackQuery, state: FSMContext):  
+   with File(maintain_db, 'users.db') as db:
+      try:
+        nip = db.get_user_nip_by_id(callback_query.from_user.id) 
+        await state.update_data(nip=nip)
+      except:
+        traceback.print_exc()  
+        await callback_query.message.answer("Не удалось найти данные юзера...")
+        await state.clear()
+        return
+   await callback_query.message.answer('Введите NIP кабинета:')
+   await state.set_state(FSMFillForm.gabinet_nip)
+
+@router.callback_query(Text(text=['no_add_gabinet']))
+async def process_no_add_gabinet(callback_query: CallbackQuery, state: FSMContext):
+   await state.clear()
+   await callback_query.message.answer('Чем еще могу помочь?') 
 
 # add payment
 @router.callback_query(Text(text=['add_payment_gabinet']), StateFilter(FSMFillForm.gabinet_opened))
@@ -58,9 +80,7 @@ async def process_open_payments(callback_query: CallbackQuery, state: FSMContext
 
 @router.callback_query(Text(text=["open_today", "open_week", "open_month"]), StateFilter(FSMFillForm.gabinet_opened))
 async def process_open_payments_period(callback_query: CallbackQuery, state: FSMContext):
-       
        await callback_query.message.delete()
-       
        if callback_query.data == "open_today":
           start_date = datetime.datetime.now().strftime('%Y-%m-%d')
           end_date = datetime.datetime.now().strftime('%Y-%m-%d')
@@ -88,11 +108,13 @@ async def process_open_payments_period(callback_query: CallbackQuery, state: FSM
            await callback_query.message.answer("Не удалось найти транзакции, что-то пошло не так...")
            await state.clear()
            return
-       
-       await state.update_data(payments=payments)
-       await state.update_data(gabinet_name=name)
-       await callback_query.message.answer(text=f"Ваши транзакции за {text}:", reply_markup=get_payments_by_gabinet_markup(payments, name))
-       await state.set_state(FSMFillForm.payments_view)
+       if len(payments) != 0:
+         await state.update_data(payments=payments)
+         await state.update_data(gabinet_name=name)
+         await callback_query.message.answer(text=f"Ваши транзакции за {text}:", reply_markup=get_payments_by_gabinet_markup(payments, name))
+         await state.set_state(FSMFillForm.payments_view)
+       else:
+         await callback_query.message.answer(text="Пока нет транзакций")
 
 @router.callback_query(Text(text=['add_invoice_gabinet']), StateFilter(FSMFillForm.gabinet_opened))
 async def process_gabinet_opened(callback_query: CallbackQuery, state: FSMContext):
@@ -133,5 +155,8 @@ async def process_dummy(callback_query: CallbackQuery, state: FSMContext):
 @router.callback_query(StateFilter(FSMFillForm.payments_view))
 async def process_pagination(callback_query: CallbackQuery, state: FSMContext):
    data = await state.get_data()
-   markup = get_payments_by_gabinet_markup(data=data['payments'], name=data['gabinet_name'], page_num=int(callback_query.data))
-   await callback_query.message.edit_reply_markup(reply_markup=markup)
+   if data['payments'] == 0:
+      await callback_query.message.answer('Пока нет транзакций')
+   else:   
+     markup = get_payments_by_gabinet_markup(data=data['payments'], name=data['gabinet_name'], page_num=int(callback_query.data))
+     await callback_query.message.edit_reply_markup(reply_markup=markup)
