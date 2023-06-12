@@ -6,7 +6,6 @@ from faktura.banks import *
 from num2words import num2words
 import calendar
 import jinja2
-import pdfkit
 import weasyprint
 
 class Faktura:
@@ -188,7 +187,7 @@ class Faktura:
 #          return
  def get_faktura(self, data):
     template_path = 'bot/faktura/invoice-template.html.jinja'
-    css_paths = ['bot/faktura/css/style2.css', 'bot/faktura/css/reset.css']
+    css_paths = ['bot/faktura/css/style.css', 'bot/faktura/css/reset2.css']
     output_pdf_path = 'bot/faktura/faktury/Faktura.pdf'
 
     with open(template_path, 'r', encoding='utf-8') as f:

@@ -10,23 +10,23 @@ h1 {
 h2 {
   font: 600 12px/18px 'Hind';
 }
-
+@page {
+  size: 1000px;
+} 
 html,
 body {
-  width: 1000px;
-  min-height: 842px;
+  margin-left: 1px;
   font: 400 12px/14px 'Hind';
   color: #292929;
 }
 
 .header,
 .main {
-  /* width: 100%; */
-  padding: 0 20px 0;
+  width: 20cm;
+  margin-left: 1px;
 }
 
 .main {
-  margin: 17px 0;
   display: -webkit-box;
   display: -ms-flexbox;
   display: -webkit-box;
@@ -41,12 +41,12 @@ body {
 
 .divider {
   border-bottom: 3px solid #f2f4f7;
-  width: 1000px;
+  width: 17cm;
 }
 
 .divider2 {
   border-bottom: 3px solid #d1d1d1;
-  width: 1025px;
+  width: 18 cm;
 }
 
 /* DIVIDER <<<<<<<<<<<<<< */
@@ -64,7 +64,7 @@ body {
       -ms-flex-flow: column;
           flex-flow: column;
   font-size: 12;
-  width: 1000px;
+  width: 21cm;
 }
 
 .payment-method,
@@ -100,6 +100,7 @@ body {
   -webkit-column-gap: 100px;
      -moz-column-gap: 100px;
           column-gap: 100px;
+  width: 1000px;
 }
 
 .seller-details,
@@ -111,7 +112,7 @@ body {
   -webkit-box-direction: normal;
       -ms-flex-flow: column;
           flex-flow: column;
-  width: 500px;
+  width: 400px;
 }
 
 .seller-details__content,
@@ -123,7 +124,7 @@ body {
   -webkit-box-direction: normal;
       -ms-flex-flow: column;
           flex-flow: column;
-  width: 500px;
+  width: 400px;
 }
 
 .content__name,

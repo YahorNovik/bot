@@ -64,12 +64,13 @@ async def process_yes(callback_query: CallbackQuery, state: FSMContext):
     data = await state.get_data()
     faktura = Faktura(user_nip=data['user_nip'], gabinet_nip=data['gabinet_nip'], amount=int(data['amount']))
     data=faktura.get_data()
-    number=faktura.get_faktura(data)
-
+    await callback_query.message.answer(f'Генерирую фактуру....')
+    number=faktura.get_faktura(data)  
     pdf = FSInputFile("bot/faktura/faktury/Faktura.pdf")
           
     media = InputMediaDocument(type=InputMediaType.DOCUMENT, media=pdf)
     await callback_query.message.answer(f'Фактура номер {number} успешно создана!')
+    await state.clear()
     await callback_query.message.answer_media_group([media])
 
 @router.callback_query(Text(text=['no']), StateFilter(FSMFillForm.invoice_amount))
@@ -94,6 +95,7 @@ async def process_amount(message: Message, state: FSMContext, bot: Bot):
           
           media = InputMediaDocument(type=InputMediaType.DOCUMENT, media=pdf)
           await message.answer(f'Фактура номер {number} успешно создана!')
+          await state.clear()
           await message.answer_media_group([media])
 
 
