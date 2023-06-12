@@ -9,6 +9,7 @@ from keyboard.keyboard import *
 from validation.validation import validate_amount, validate_nip
 from parser_folder.parser_code import *
 from FSMstate.fsm import *
+import traceback
 
 router: Router = Router()
 
@@ -21,6 +22,7 @@ async def process_add_payment(message: Message, state: FSMContext):
            if nip != None:
              gabinets = db.get_gabinets_by_user_nip(nip)
          except:
+           traceback.print_exc() 
            await message.answer("Не удалось найти кабинеты, что-то пошло не так...")
            await state.clear()
            return
@@ -56,6 +58,7 @@ async def process_amount(message: Message, state: FSMContext):
               payment_id=db.add_record_payments(user_nip, gabinet_nip, message.text, date)
               gabinet = db.get_gabinet_name(gabinet_nip)
           except:
+              traceback.print_exc() 
               await message.answer("Не удалось добавить транзакцию, что-то пошло не так...")
               await state.clear()
               return
@@ -70,6 +73,7 @@ async def process_add_more_payment(callback: CallbackQuery, state: FSMContext):
          nip = db.get_user_nip_by_id(callback.from_user.id)
          gabinets = db.get_gabinets_by_user_nip(nip)
        except:
+         traceback.print_exc() 
          await callback.message.answer("Не удалось найти кабинеты, что-то пошло не так...")
          await state.clear()
          return
@@ -95,6 +99,7 @@ async def process_add_description(message: Message, state: FSMContext):
         data = await state.get_data()
         db.set_description(data['payment_id'], message.text)
       except:
+        traceback.print_exc() 
         await message.answer("Не удалось добавить описание, что-то пошло не так...")
         await state.clear()
         return
@@ -121,6 +126,7 @@ async def process_edit_choice(callback_query: CallbackQuery, state: FSMContext):
          nip = db.get_user_nip_by_id(callback_query.from_user.id)
          gabinets = db.get_gabinets_by_user_nip(nip)
        except:
+         traceback.print_exc() 
          await callback_query.message.answer("Не удалось найти кабинеты, что-то пошло не так...")
          await state.clear()
          return
@@ -137,6 +143,7 @@ async def process_edit_choice(callback_query: CallbackQuery, state: FSMContext):
          await state.clear()
          await callback_query.message.answer("Транзакция удалена. Чем еще могу помочь?")
        except:
+         traceback.print_exc() 
          await callback_query.message.answer("Не удалось удалить транзакцию, что-то пошло не так...")
          await state.clear()
          return      
@@ -152,6 +159,7 @@ async def process_edit_payment_gabinet(callback_query: CallbackQuery, state: FSM
          await state.clear()
          await callback_query.message.answer("Транзакция изменена. Чем еще могу помочь?")
        except:
+         traceback.print_exc() 
          await callback_query.message.answer("Не удалось изменить кабинет, что-то пошло не так...")
          await state.clear()
          return
@@ -171,6 +179,7 @@ async def process_edit_payment_amount(message: Message, state: FSMContext):
          await state.clear()
          await message.answer("Транзакция изменена. Чем еще могу помочь?")
        except:
+         traceback.print_exc() 
          await message.answer("Не удалось изменить кабинет, что-то пошло не так...")
          await state.clear()
          return

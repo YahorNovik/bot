@@ -9,7 +9,7 @@ from parser_folder.parser_code import get_user_data, get_gabinet_data
 from keyboard.keyboard import *
 from db.db import *
 from aiogram.fsm.state import default_state
-import time
+import traceback
 
 router: Router = Router()
 
@@ -20,6 +20,7 @@ async def process_logon_command(message: Message, state: FSMContext):
        try:
          nip = db.get_user_nip_by_id(message.from_user.id)
        except:
+         traceback.print_exc() 
          await state.clear()
          await message.answer('Что-то пошло не так...')
          return   

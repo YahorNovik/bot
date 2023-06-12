@@ -17,6 +17,7 @@ from aiogram.types import Message, InputMediaDocument
 from aiogram.enums import InputMediaType
 
 from aiogram.types import FSInputFile
+import traceback
 
 router: Router = Router()
 
@@ -28,6 +29,7 @@ async def process_add_invoice(message: Message, state: FSMContext):
            nip = db.get_user_nip_by_id(message.from_user.id)
            gabinets = db.get_gabinets_by_user_nip(nip)
          except:
+           traceback.print_exc() 
            await message.answer("Не удалось найти кабинеты, что-то пошло не так...")
            await state.clear()
            return

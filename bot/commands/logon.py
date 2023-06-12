@@ -11,6 +11,8 @@ from keyboard.keyboard import *
 from db.db import *
 import time
 
+import traceback
+
 router: Router = Router()
 
 # command
@@ -21,6 +23,7 @@ async def process_logon_command(message: Message, state: FSMContext):
        try:
          nip = db.get_user_nip_by_id(message.from_user.id)
        except:
+         traceback.print_exc() 
          await state.clear()
          await message.answer('Что-то пошло не так...')
          return   
@@ -38,6 +41,7 @@ async def process_yes_button(callback_query: CallbackQuery, state: FSMContext):
       try:
         db.add_record_users(user_id=data['user_id'] ,nip=data['nip'], regon=data['regon'], address=data['address'], city=data['city'], name=data['name'], date=data['date'])
       except:
+        traceback.print_exc() 
         await callback_query.message.answer("Не удалось зарегистрировать юзера, что-то пошло не так...")
         return
         
@@ -59,6 +63,7 @@ async def process_yes_button_gabinet(callback_query: CallbackQuery, state: FSMCo
      try:
        db.add_record_gabinets(nip=data['gabinet_nip'], user_nip=data['nip'], name=data['name'], address=data['address'])
      except:
+       traceback.print_exc() 
        await callback_query.message.answer("Не удалось добавить кабинет, что-то пошло не так...")
        return
     await callback_query.message.delete() 
@@ -105,6 +110,7 @@ async def process_nip(message: Message, state: FSMContext):
           time.sleep(2)
           await message.answer(text = 'Данные корректны?', reply_markup= get_yesno_keyboard())
         except Exception as err:
+          traceback.print_exc() 
           await message.answer(text = 'Не могу найти данные по номеру NIP')
     
 @router.message(StateFilter(FSMFillForm.gabinet_nip))
@@ -125,6 +131,7 @@ async def process_gabinet_nip(message: Message, state: FSMContext):
           await message.answer(text = 'Данные корректны?', reply_markup= get_yesno_keyboard())
           await state.set_state(FSMFillForm.gabinet_added)
         except Exception as err:
+          traceback.print_exc() 
           await message.answer(text = 'Не могу найти данные по номеру NIP. Хотите добавить кабинет в ручную?', reply_markup= get_yesno_keyboard())
           await state.set_state(FSMFillForm.add_gabinet_manually)
 
@@ -156,6 +163,7 @@ async def process_name(message: Message, state: FSMContext):
      try:
        db.add_record_gabinets(nip=data['gabinet_nip'], user_nip=data['nip'], name=message.text, address=data['address'])
      except:
+       traceback.print_exc() 
        await message.answer("Не удалось добавить кабинет, что-то пошло не так...")
        return
     await message.delete() 
@@ -174,6 +182,7 @@ async def process_account_number(message: Message, state: FSMContext):
            try:
               db.add_account_number(user_nip=data['nip'], account_number=message.text)
            except:
+              traceback.print_exc() 
               await message.answer("Не удалось добавить номер счета, что-то пошло не так...")
               return
         await message.answer(f"Ваш номер счета в банке {result[1]} успешно добавлен!")

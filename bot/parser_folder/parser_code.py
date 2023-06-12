@@ -1,5 +1,6 @@
 import requests
 import datetime
+import traceback
 
 def get_user_data(nip):
   
@@ -12,6 +13,7 @@ def get_user_data(nip):
     id = json_data['companyList'][0]['id']
     date = json_data['companyList'][0]['registerDate']
   else:
+    traceback.print_exc() 
     raise Exception("Error")
 
   url_data = f"https://dane.biznes.gov.pl/api/mswf/v1/GetCompanyDetails?id={id}"
@@ -27,6 +29,7 @@ def get_user_data(nip):
                   "REGON": data['basicData']['regon'],
                   "Date": date }
   else:
+    traceback.print_exc() 
     raise Exception("Error")
 
   # user_data = {
@@ -86,6 +89,7 @@ def get_gabinet_data(nip):
                               "Address": f"{data['odpis']['dane']['dzial1']['siedzibaIAdres']['adres']['ulica']} {data['odpis']['dane']['dzial1']['siedzibaIAdres']['adres']['nrDomu']}, {data['odpis']['dane']['dzial1']['siedzibaIAdres']['adres']['kodPocztowy']} {data['odpis']['dane']['dzial1']['siedzibaIAdres']['adres']['miejscowosc']}"}
                 return user_data
         else:
+          traceback.print_exc() 
           raise Exception("Error")
     else:
       if data['result']['subject']['workingAddress'] != None:
@@ -98,6 +102,7 @@ def get_gabinet_data(nip):
                        "Address": address }
       return gabinet_data
   else:
+    traceback.print_exc() 
     raise Exception("Error")
 
 #           # gabinet_data = { "Name": "Company name",

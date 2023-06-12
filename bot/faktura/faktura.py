@@ -7,6 +7,7 @@ from num2words import num2words
 import calendar
 import jinja2
 import weasyprint
+import traceback
 
 class Faktura:
  
@@ -88,6 +89,7 @@ class Faktura:
       try:
         user_data = db.get_user_data_by_nip(self.user_nip)
       except:
+        traceback.print_exc() 
         return
     self.user = {'name': user_data[2],
                  'business_name': f"{business_name_text} {user_data[2]}",
@@ -103,6 +105,7 @@ class Faktura:
       try:
         gabinet_data = db.get_gabinet_data_by_nip(self.gabinet_nip)
       except:
+        traceback.print_exc() 
         return
     self.gabinet = {'business_name': format_name(gabinet_data[1]),
                     'address': format_address(gabinet_data[0]),
@@ -207,6 +210,7 @@ class Faktura:
             db.add_invoice(data)
             return data['invoice_number']
         except:
+            traceback.print_exc() 
             return
     
   

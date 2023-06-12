@@ -9,6 +9,7 @@ from keyboard.keyboard import *
 from FSMstate.fsm import *
 
 import datetime
+import traceback
 
 router: Router = Router()
 
@@ -21,6 +22,7 @@ async def process_open_gabinet_command(message: Message, state: FSMContext):
          nip = db.get_user_nip_by_id(message.from_user.id)
          gabinets = db.get_gabinets_by_user_nip(nip)
        except:
+         traceback.print_exc() 
          await message.answer("Не удалось найти кабинеты, что-то пошло не так...")
          await state.clear()
          return
@@ -82,6 +84,7 @@ async def process_open_payments_period(callback_query: CallbackQuery, state: FSM
            payments = db.get_payments_by_gabinet_and_date(int(gabinet_nip), str(start_date), str(end_date))
            name = db.get_gabinet_name(gabinet_nip)
          except:
+           traceback.print_exc() 
            await callback_query.message.answer("Не удалось найти транзакции, что-то пошло не так...")
            await state.clear()
            return
