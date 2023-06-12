@@ -89,7 +89,8 @@ async def process_amount(message: Message, state: FSMContext, bot: Bot):
         await message.answer('Введите сумму транзакции (злотые):')
       else:
           data = await state.get_data()
-          faktura = Faktura(user_nip=data['user_nip'], gabinet_nip=data['gabinet_nip'], amount=Decimal(message.text))
+          faktura = Faktura(user_nip=data['user_nip'], gabinet_nip=data['gabinet_nip'], amount=int(message.text))
+          await message.answer(f'Генерирую фактуру....')
           data=faktura.get_data()
           number = faktura.get_faktura(data)
 
