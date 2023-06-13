@@ -34,9 +34,13 @@ async def process_add_invoice(message: Message, state: FSMContext):
            await state.clear()
            return
       if nip != None:
-        await message.answer(text ='Выберите кабинет:', reply_markup=get_markup_gabinet(gabinets))
-        await state.update_data(user_nip=nip)
-        await state.set_state(FSMFillForm.invoice_gabinet)
+        if len(gabinets) != 0:
+          await message.answer(text ='Выберите кабинет:', reply_markup=get_markup_gabinet(gabinets))
+          await state.update_data(user_nip=nip)
+          await state.set_state(FSMFillForm.invoice_gabinet)
+        else:
+          await message.answer(text="Вы не добавили кабинеты. Добавить кабинет?", reply_markup=get_yesno_keyboard(yes = 'yes_add_gabinet', no = 'no_add_gabinet'))
+          return
       else:
         await message.answer("Сначала нужно зарегистрироваться.") 
 
