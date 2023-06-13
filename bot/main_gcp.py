@@ -2,7 +2,7 @@ import asyncio
 from aiogram import Bot, Dispatcher
 from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram.fsm.storage.redis import RedisStorage, Redis
-from commands import add_payment, exit_button, logon, open_gabinet, invoice, add_gabinet
+from commands import add_payment, exit_button, logon, open_gabinet, invoice, add_gabinet, dummy_message
 
 async def main():
 
@@ -26,6 +26,7 @@ async def main():
   dp.include_router(add_gabinet.router)
   dp.include_router(open_gabinet.router)
   dp.include_router(invoice.router)
+  dp.include_router(dummy_message.router)
 
   await bot.delete_webhook(drop_pending_updates=True)
   await dp.start_polling(bot)
