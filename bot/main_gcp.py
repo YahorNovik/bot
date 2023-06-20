@@ -10,9 +10,9 @@ async def main():
   API_TOKEN: str = '5888769925:AAGNCIsmXjoP9Kj-AtWKtW0s9iiu7CaTBLM'    
   # B2B Developer
   #API_TOKEN: str = '6030957150:AAGkocaEhNBlG9Ge0PkAPwMe3i4S0iAPEMo'
-  #storage: MemoryStorage = MemoryStorage()  
-  redis: Redis = Redis(host='localhost')
-  storage: RedisStorage = RedisStorage(redis=redis)
+  storage: MemoryStorage = MemoryStorage()  
+  #redis: Redis = Redis(host='localhost')
+  #storage: RedisStorage = RedisStorage(redis=redis)
 
   #config: Config = load_config()
   #bot: Bot = Bot(token=config.tg_bot.token)
