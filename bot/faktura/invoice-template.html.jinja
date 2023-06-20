@@ -101,14 +101,12 @@
         </div>
         {% endfor %}
 
-        <div class="total-wrapper">
-          <div class="row row-total">
-            <div class="col col-price-per-unit-netto">Razem:</div>
-            <div class="col col-price-netto">{{ in_total.price_netto|round(2) }}</div>
-            <div class="col col-vat-perc"></div>
-            <div class="col col-vat">{{ in_total.vat_value|round(2) }}</div>
-            <div class="col col-price-brutto">{{ in_total.price_brutto|round(2) }}</div>
-          </div>
+        <div class="row row-total">
+          <div class="col col-price-per-unit-netto">Razem:</div>
+          <div class="col col-price-netto">{{ in_total.price_netto|round(2) }}</div>
+          <div class="col col-vat-perc"></div>
+          <div class="col col-vat">{{ in_total.vat_value|round(2) }}</div>
+          <div class="col col-price-brutto">{{ in_total.price_brutto|round(2) }}</div>
         </div>
       </div>
 

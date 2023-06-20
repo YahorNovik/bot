@@ -88,29 +88,25 @@ html, body {
   padding-bottom: 100px;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  font-size: 12px;
-  width: 900px; 
+  flex-flow: column;
+  align-items: flex-end;
+  font-size: 10px;
+  width: 700px; 
 }
 
 .table .row {
   display: flex;
-  border-bottom: 1px solid #f2f4f7;
 }
 
 .table .row-header {
   border-top: none;
   font-weight: 600;
-  font-size: 12px;
+  font-size: 10px;
   background-color: #f2f4f7;
 }
 
-.table > .row:nth-last-child(2) {
-  border-bottom: 1px solid #f2f4f7;
-}
-
 .table .col {
-  padding: 8px;
+  padding: 3px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -118,11 +114,28 @@ html, body {
 }
 
 .table .col-index {
-  width: 100px; /* Adjusted for "Lp" column */
+  width: 90px; /* Adjusted for "Lp" column */
   justify-content: center;
   text-align: center;
   border-right: 1px solid #f2f4f7;
   border-left: 1px solid #f2f4f7;
+  border-bottom: 1px solid #f2f4f7;
+}
+
+.table .col-amount {
+  width: 88px; /* Adjusted for "Ilość" and "Jm" columns */
+  justify-content: center;
+  text-align: center;
+  border-right: 1px solid #f2f4f7;
+  border-bottom: 1px solid #f2f4f7;
+}
+
+.table .col-unit {
+  width: 94px; /* Adjusted for "Ilość" and "Jm" columns */
+  justify-content: center;
+  text-align: center;
+  border-right: 1px solid #f2f4f7;
+  border-bottom: 1px solid #f2f4f7;
 }
 
 .table .col-name {
@@ -130,38 +143,90 @@ html, body {
   justify-content: flex-start;
   text-align: left;
   border-right: 1px solid #f2f4f7;
+  border-bottom: 1px solid #f2f4f7;
 }
 
-.table .col-amount, .table .col-unit {
-  width: 100px; /* Adjusted for "Ilość" and "Jm" columns */
+
+.table .col-price-brutto {
+  width: 269px;
   justify-content: center;
   text-align: center;
   border-right: 1px solid #f2f4f7;
+  border-bottom: 1px solid #f2f4f7;
 }
 
-.table .col-price-per-unit-netto, .table .col-price-netto, .table .col-vat-perc, .table .col-vat, .table .col-price-brutto {
-  width: 150px;
+.table .col-price-netto {
+  width: 269px;
   justify-content: center;
   text-align: center;
   border-right: 1px solid #f2f4f7;
+  border-bottom: 1px solid #f2f4f7;
 }
 
-.table .total-wrapper,
-.table .row-total-details {
-  align-items: right;
+.table .col-vat-perc {
+  width: 221px;
+  justify-content: center;
+  text-align: center;
+  border-right: 1px solid #f2f4f7;
+  border-bottom: 1px solid #f2f4f7;
 }
 
-.table .total-wrapper .row,
+.table .col-vat {
+  width: 221px;
+  justify-content: center;
+  text-align: center;
+  border-right: 1px solid #f2f4f7;
+  border-bottom: 1px solid #f2f4f7;
+}
+
+.table .col-price-per-unit-netto {
+  width: 218px;
+  justify-content: center;
+  text-align: center;
+  border-right: 1px solid #f2f4f7;
+  border-bottom: 1px solid #f2f4f7;
+}
+
+.table .total .row,
 .table .total-details .row {
   border-bottom: 1px solid #f2f4f7;
 }
 
-.row-total .col-price-per-unit-netto,
+.row-total .col,
+.row-total-details .col {
+  justify-content: right;
+  text-align: right;
+}
+
+.row-total .col-price-per-unit-netto, 
 .row-total-details .col-price-per-unit-netto {
   font-weight: 600;
-  width: 220px;
+  width: 300px;
   border-left: 1px solid #f2f4f7;
-  justify-content: flex-end;
+}
+
+.row-total .col-price-netto, 
+.row-total-details .col-price-netto {
+  font-weight: 600;
+  width: 365px;
+}
+
+.row-total .col-vat-perc,
+.row-total-details .col-vat-perc {
+  font-weight: 600;
+  width: 300px;
+}
+
+.row-total .col-vat,
+.row-total-details .col-vat {
+  font-weight: 600;
+  width: 300px;
+}
+
+.row-total .col-price-brutto, 
+.row-total-details .col-price-brutto {
+  font-weight: 600;
+  width: 365px;
 }
 
 .summary-container {
@@ -203,3 +268,4 @@ html, body {
   font: 600 12px/10px 'Hind';
   text-align: right;
 }
+
